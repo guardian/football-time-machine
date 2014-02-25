@@ -1,7 +1,13 @@
-@(message: String)
+@(dateTimes: List[(String, String)])
 
-@main("Welcome to Play") {
+@main("Football Time Machine") {
 
-    @play20.welcome(message)
+    <h1>Football Time Machine</h1>
 
+    <p>The following date/time combinations are eligible for time travel:</p>
+    <p class="small">Note, historical data may work for you if the API calls you are making weren't recorded at the time.</p>
+
+    @for((date, time) <- dateTimes) {
+      <li>@date/@time</li>
+    }
 }
