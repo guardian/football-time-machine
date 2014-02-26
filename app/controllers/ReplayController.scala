@@ -7,6 +7,7 @@ import play.Logger
 import org.joda.time.{DateMidnight, DateTime}
 import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
 import scala.concurrent.Future
+import java.io.FileNotFoundException
 
 object ReplayController extends Controller with Slugs with LocalDisk with ExecutionContexts {
   def replay(path: String) = Action.async { implicit request =>
@@ -17,13 +18,15 @@ object ReplayController extends Controller with Slugs with LocalDisk with Execut
       case DateSlugRegex(date) :: TimeSlugRegex(time) :: slugs => {
         val filepath = slugsToFilePath(slugs)
         val fullPath = s"$date/$time/$filepath.xml"
-        for {
+        (for {
           response <- loadFile(fullPath)
         } yield {
           Logger.info(s"${DateTime.now().toString("yyyy/MM/dd HH:mm:ss")} replaying $fullPath")
           val targetDate = DateMidnight.parse(date, DateTimeFormat.forPattern("yyyyMMdd"))
           val responseWithCorrectedDates = rewriteToday(targetDate, response)
           Ok(responseWithCorrectedDates).as(XML)
+        }).recover {
+          case e: FileNotFoundException => InternalServerError(views.html.error("File not available", "Unable to replay the requested API call"))
         }
       }
       case _ => throw new RuntimeException("Include desired date and time")

@@ -2,7 +2,7 @@ package common
 
 import java.io.File
 import play.api.Play._
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 trait IO {
   def loadFile(path: String): Future[String]
@@ -13,9 +13,11 @@ trait IO {
 trait LocalDisk extends IO {
   val root = s"${current.path}/data/"
 
+  implicit val executionContext: ExecutionContext
+
   override def loadFile(path: String): Future[String] = {
     val file = new File(s"$root/$path")
-    Future.successful(scala.io.Source.fromFile(file).mkString)
+    Future(scala.io.Source.fromFile(file).mkString)
   }
 
   override def writeFile(path: String, contents: String): Unit = {
