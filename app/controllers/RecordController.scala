@@ -24,11 +24,9 @@ object RecordController extends Controller with Slugs with FootballClient with L
   def writePaResponse(urlString: String, response: String): Unit = {
     val now = DateTime.now()
     val roundedNow = now.withMinuteOfHour(roundDown(now.minuteOfHour().get(), 10))
-    val filePath = urlString
-      .replace(Configuration.paKey, "KEY")
-      .replaceAll("""201[0-9][01][0-9][012][0-9]""", "DATE")
+    val filePath = pathToFilePath(urlString)
     val fullPath = s"${roundedNow.toString("yyyyMMdd")}/${roundedNow.toString("HHmm")}/$filePath.xml"
-    Logger.info(s"writing file $fullPath.xml")
+    Logger.info(s"${now.toString("yyyy/MM/dd HH:mm:ss")} recording $fullPath")
     writeFile(fullPath, response)
   }
 

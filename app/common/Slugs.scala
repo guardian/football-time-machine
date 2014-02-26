@@ -15,4 +15,8 @@ trait Slugs {
       case slug => slug
     }.mkString("/")
   }
+
+  def pathToFilePath(path: String): String = {
+    slugsToFilePath(path.split("/").toList)
+  }
 }
