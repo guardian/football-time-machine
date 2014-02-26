@@ -6,10 +6,14 @@ import conf.Configuration
 import play.Logger
 import org.joda.time.{DateMidnight, DateTime}
 import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
+import scala.concurrent.Future
 
 object ReplayController extends Controller with Slugs with LocalDisk with ExecutionContexts {
   def replay(path: String) = Action.async { implicit request =>
     path.split("/").toList match {
+      case DateSlugRegex(date) :: TimeSlugRegex(time) :: Nil => {
+        Future.successful(NotFound(views.html.error("Full path to API endpoint required", "This service reproduces the PA API so you need to browse to the API endpoint you wish to replay.")))
+      }
       case DateSlugRegex(date) :: TimeSlugRegex(time) :: slugs => {
         val filepath = slugsToFilePath(slugs)
         val fullPath = s"$date/$time/$filepath.xml"
