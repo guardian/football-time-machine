@@ -11,7 +11,7 @@ trait IO {
 }
 
 trait LocalDisk extends IO {
-  val root = s"${current.path}/test/data/"
+  val root = s"${current.path}/data/"
 
   override def loadFile(path: String): Future[String] = {
     val file = new File(s"$root/$path")
