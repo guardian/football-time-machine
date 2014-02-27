@@ -30,7 +30,7 @@
                       <span class="btn btn-default" data-toggle="collapse" data-target="#datetime-@date">@date.take(4) / @date.drop(4).take(2) / @date.drop(6)</span>
                       <ul class="datetime-group collapse" id="datetime-@date">
                       @for((_, time) <- dateTimes) {
-                          <li><code>http://@request.host/@date/@time</code></li>
+                          <li><code>http://@request.host/replay/@date/@time</code></li>
                       }
                       </ul>
                   </li>

@@ -23,8 +23,7 @@ object ReplayController extends Controller with Slugs with LocalDisk with Execut
         } yield {
           Logger.info(s"${DateTime.now().toString("yyyy/MM/dd HH:mm:ss")} replaying $fullPath")
           val targetDate = DateMidnight.parse(date, DateTimeFormat.forPattern("yyyyMMdd"))
-          val responseWithCorrectedDates = rewriteToday(targetDate, response)
-          Ok(responseWithCorrectedDates).as(XML)
+          Ok(rewriteToday(targetDate, response)).as(XML)
         }).recover {
           case e: FileNotFoundException => InternalServerError(views.html.error("File not available", "Unable to replay the requested API call"))
         }
