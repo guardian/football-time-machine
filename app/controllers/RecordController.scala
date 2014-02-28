@@ -1,7 +1,6 @@
 package controllers
 
 import play.api.mvc.{Action, Controller}
-import conf.Configuration
 import common.{ExecutionContexts, Slugs, LocalDisk}
 import org.joda.time.DateTime
 import play.Logger

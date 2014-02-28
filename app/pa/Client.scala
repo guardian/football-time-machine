@@ -1,18 +1,15 @@
 package pa
 
-import pa.{Http, PaClient}
 import common.ExecutionContexts
 import scala.concurrent.{ExecutionContext, Future}
 import conf.Configuration
 import play.api.libs.ws.WS
-import org.joda.time.{DateTime, DateMidnight}
+import org.joda.time.DateMidnight
 import play.api.Play._
-import pa.Response
 import scala.Some
 import play.Logger
 import scala.util.{Failure, Success}
 import java.io.File
-import java.net.URL
 
 trait Client extends PaClient with Http with ExecutionContexts {
   def apiCall(suffix: String)(implicit context: ExecutionContext): Future[String] = super.get(suffix)(context)

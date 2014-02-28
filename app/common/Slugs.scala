@@ -1,7 +1,5 @@
 package common
 
-import java.io.File
-import play.api.Play._
 import conf.Configuration
 
 trait Slugs {
