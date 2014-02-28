@@ -1,4 +1,4 @@
-name := "football-time-machine-2"
+name := "football-time-machine"
 
 version := "1.0-SNAPSHOT"
 
@@ -10,3 +10,5 @@ libraryDependencies ++= Seq(
 )
 
 play.Project.playScalaSettings
+
+ideaExcludeFolders += "data"
