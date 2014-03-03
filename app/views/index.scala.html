@@ -14,14 +14,22 @@
                     You can use the <span class="label label-success">Football Time Machine!</span> by changing the URL you use to access the PA API.
                     Instead of (e.g.) <a href="http://pads6.pa-sport.com/">http://pads6.pa-sport.com/</a> you
                     should point to the <span class="label label-success">Football Time Machine!</span>, including
-                    the date and time you wish to travel to. For example if you set <code>http://@request.host/20140225/1550</code>
-                    you will receive data as if it is 15:50 on the 25th of Feb 2014.
+                    the date and time you wish to travel to. For example if you set <code>http://@request.host/replay/20140225/1550</code>
+                    you will receive data as if it is 15:50 on the 25th of Feb 2014. Not, in Frontend the property to set is called
+                    <code>football.api.host</code>.
+                </p>
+
+                <p>
+                    If you want to record data for future time travel adventures then set you should set the PA API URL to
+                    <code>http://@request.host/record</code>. This will transparently save PA API responses into your data
+                    directory while returning the full response to your application.
                 </p>
 
                 <p>
                     You'll need to choose a time and date for which there exists saved data.
                     The following date/time combinations are eligible for time travel:
                 </p>
+
                 <p class="small">Note, historical data may not work for you if the API calls you are making weren't recorded at the time.</p>
 
                 <ul class="list-unstyled datelist">
