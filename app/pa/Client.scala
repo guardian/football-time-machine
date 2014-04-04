@@ -24,12 +24,6 @@ private object Client extends Client {
       pa.Response(response.status, response.body, response.statusText)
     }
   }
-
-  override val errorHandler: PartialFunction[Throwable, Unit] = {
-    case t => {
-      t.printStackTrace()
-    }
-  }
 }
 private object TestClient extends Client {
   override def GET(urlString: String): Future[Response] = ???
