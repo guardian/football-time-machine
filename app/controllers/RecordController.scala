@@ -1,12 +1,12 @@
 package controllers
 
 import play.api.mvc.{Action, Controller}
-import common.{ExecutionContexts, Slugs, LocalDisk}
+import common.{ExecutionContexts, Slugs, LocalDisk, Utility}
 import org.joda.time.DateTime
 import play.Logger
 import pa.FootballClient
 
-object RecordController extends Controller with Slugs with FootballClient with LocalDisk with ExecutionContexts {
+object RecordController extends Controller with Slugs with FootballClient with LocalDisk with ExecutionContexts with Utility {
 
   def record(path: String) = Action.async { implicit request =>
     val apiPath = s"/$path"
@@ -29,5 +29,5 @@ object RecordController extends Controller with Slugs with FootballClient with L
     writeFile(fullPath, response)
   }
 
-  private def roundDown(n: Int, roundTo: Int) = n / roundTo * roundTo
+
 }

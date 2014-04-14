@@ -1,7 +1,7 @@
 package controllers
 
 import play.api.mvc.{Action, Controller}
-import common.{ExecutionContexts, LocalDisk, Slugs}
+import common.{ExecutionContexts, LocalDisk, Slugs, Utility}
 import conf.Configuration
 import play.Logger
 import org.joda.time.{DateMidnight, DateTime}
@@ -9,7 +9,7 @@ import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
 import scala.concurrent.Future
 import java.io.FileNotFoundException
 
-object ReplayController extends Controller with Slugs with LocalDisk with ExecutionContexts {
+object ReplayController extends Controller with Slugs with LocalDisk with ExecutionContexts with Utility {
   def replay(path: String) = Action.async { implicit request =>
     path.split("/").toList match {
       case DateSlugRegex(date) :: TimeSlugRegex(time) :: Nil => {
@@ -17,7 +17,8 @@ object ReplayController extends Controller with Slugs with LocalDisk with Execut
       }
       case DateSlugRegex(date) :: TimeSlugRegex(time) :: slugs => {
         val filepath = slugsToFilePath(slugs)
-        val fullPath = s"$date/$time/$filepath.xml"
+        val roundedTime = roundDown(time.toInt, 10) toString;
+        val fullPath = s"$date/$roundedTime/$filepath.xml"
         (for {
           response <- loadFile(fullPath)
         } yield {
