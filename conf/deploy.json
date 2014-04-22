@@ -1,0 +1,26 @@
+{
+	"packages" : {
+		"football-time-machine" : {
+			"type" : "autoscaling",
+			"apps" : [ "football-time-machine" ],
+			"data" : {
+				"secondsToWait" : 900,
+				"port" : 18080,
+				"healthCheckGrace" : 20,
+				"bucket" : "mobile-apps-api-dist",
+				"healthcheck_paths" : [ "/" ]
+			}
+		}
+	},
+	"recipes" : {
+		"default" : {
+			"depends" : ["artifactUpload", "deploy"]
+		},
+        "deploy": {
+            "actionsBeforeApp": ["football-time-machine.deploy"]
+        },
+        "artifactUpload": {
+            "actionsBeforeApp": ["football-time-machine.uploadArtifacts"]
+        }
+	}
+}
