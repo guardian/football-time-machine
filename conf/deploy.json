@@ -1,0 +1,24 @@
+{
+	"packages" : {
+		"football-time-machine" : {
+			"type" : "executable-jar-webapp",
+			"apps" : [ "football-time-machine" ],
+			"data" : {
+				"port" : 18080,
+				"bucket" : "mobile-apps-api-dist",
+				"healthcheck_paths" : [ "/" ]
+			}
+		}
+	},
+	"recipes" : {
+		"default" : {
+			"depends" : ["artifactUpload", "deploy"]
+		},
+        "deploy": {
+            "actionsBeforeApp": ["football-time-machine.deploy"]
+        },
+        "artifactUpload": {
+            "actionsBeforeApp": ["football-time-machine.uploadArtifacts"]
+        }
+	}
+}
