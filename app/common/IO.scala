@@ -30,9 +30,11 @@ trait LocalDisk extends IO {
   }
 
   override def listFiles(path: String): List[String] = {
-    val filenames = new File(s"$root/$path").listFiles().toList
-      .sortBy(_.getName)
-      .map(_.getName)
-    filenames
+    new File(s"$root/$path").listFiles() match {
+      case fileArray:Array[File] => fileArray.toList
+        .sortBy(_.getName)
+        .map(_.getName)
+      case _ => List()
+    }
   }
 }
