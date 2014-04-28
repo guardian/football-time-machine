@@ -2,7 +2,7 @@
 	"packages" : {
 		"football-time-machine" : {
 			"type" : "executable-jar-webapp",
-			"apps" : [ "football-time-machine" ],
+			"apps" : [ "mobile::football-time-machine" ],
 			"data" : {
 				"port" : 18080,
 				"bucket" : "mobile-apps-api-dist",
