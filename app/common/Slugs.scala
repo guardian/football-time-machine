@@ -10,7 +10,7 @@ trait Slugs {
     slugs.map {
       case DateSlugRegex(dateSlug) => "DATE"
       case Configuration.paKey => "KEY"
-      case slug => slug
+      case slug => slug.toLowerCase
     }.mkString("/")
   }
 
