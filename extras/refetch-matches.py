@@ -13,9 +13,11 @@ PA_API_KEY=os.environ.get('PA_API_KEY')
 
 matches = set()
 
+todaysDate = time.strftime("%Y%m%d")
+
 # fetch the fixtures/match day URLs
 
-matchdayurl = '%s/api/football/competitions/matchDay/%s/%s'%(PROXY_URL,PA_API_KEY,time.strftime("%Y%m%d"))
+matchdayurl = '%s/api/football/competitions/matchDay/%s/%s'%(PROXY_URL,PA_API_KEY,todaysDate)
 tree = ET.parse(urllib.urlopen(matchdayurl))
 for elem in tree.iter('match'):
 	matches.add(elem.get('matchID'))
@@ -26,7 +28,22 @@ for fixture in ['100', '500']:
 	for elem in tree.iter('fixture'):
 		matches.add(elem.get('matchID'))
 
-print "matches = %r"%matches
+lgs = [100,101,102,103,120,121,122,123,300,301,320,321,400,500,510,620,625,635,650,701,721]
+
+# fetch results pages
+for res in lgs:
+	date = time.strftime("%Y%m%d", time.localtime(time.time()-(86400*30)))
+	url = '%s/api/football/competition/results/%s/%d/%s'%(PROXY_URL, PA_API_KEY, res, date)
+#	print "opening %s"%url
+	urllib.urlopen(url).read()
+
+for league in lgs:
+	url = '%s/api/football/competition/leagueTable/%s/%d/%s'%(PROXY_URL, PA_API_KEY, res, todaysDate)
+#	print "opening %s"%url
+	urllib.urlopen(url).read()
+
+
+#print "matches = %r"%matches
 for match in matches:
 	for urltype in ['events', 'lineups']:
 		matchurl = '%s/api/football/match/%s/%s/%s'%(PROXY_URL,urltype,PA_API_KEY,match)
