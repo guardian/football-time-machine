@@ -38,7 +38,7 @@ for res in lgs:
 	urllib.urlopen(url).read()
 
 for league in lgs:
-	url = '%s/api/football/competition/leagueTable/%s/%d/%s'%(PROXY_URL, PA_API_KEY, res, todaysDate)
+	url = '%s/api/football/competition/leagueTable/%s/%d/%s'%(PROXY_URL, PA_API_KEY, league, todaysDate)
 #	print "opening %s"%url
 	urllib.urlopen(url).read()
 
