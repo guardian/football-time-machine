@@ -19,24 +19,6 @@ def areDuplicates(f1, f2):
 	return filecmp.cmp(f1, f2, shallow=False)
 
 
-
-
-def _compact(path):
-	for (dirpath, dirnames, filenames) in os.walk(path):
-		if filenames:
-			# iterate through the filenames in this directory
-			os.chdir(dirpath)
-			prevfile = filenames.pop(0)
-			while filenames:
-				nextfile = filenames.pop(0)
-				if areDuplicates(prevfile, nextfile):
-					print "%s: linking %s to %s"%(dirpath, prevfile, nextfile)
-					#os.unlink(nextfile)
-					#os.link(prevfile, nextfile)
-				else:
-					prevfile = nextfile
-
-
 def compact(path):
 	filemap = {}  # filepath -> [ fullpath, ... ], sorted by time
 	for time in os.listdir(path):
@@ -61,10 +43,6 @@ def compact(path):
 			else:
 				#print ". %s and %s differ"%(prevfile, nextfile)
 				prevfile = nextfile
-
-
-
-
 
 
 if __name__ == "__main__":
