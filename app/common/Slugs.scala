@@ -8,8 +8,8 @@ trait Slugs {
 
   def slugsToFilePath(slugs: List[String]): String = {
     slugs.map {
-      case DateSlugRegex(dateSlug) => "DATE"
-      case Configuration.paKey => "KEY"
+      case DateSlugRegex(dateSlug) => "date"
+      case Configuration.paKey => "key"
       case slug => slug.toLowerCase
     }.mkString("/")
   }
