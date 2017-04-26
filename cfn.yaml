@@ -78,7 +78,7 @@ Resources:
           App: !Ref App
       Description: Stores pa feed on s3 to replay them later
       Handler: com.gu.footballtimemachine.Lambda::handler
-      MemorySize: 128
+      MemorySize: 256
       Role: !GetAtt ExecutionRole.Arn
       Runtime: java8
       Timeout: 60
