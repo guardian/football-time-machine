@@ -24,8 +24,11 @@ libraryDependencies ++= Seq(
 
 enablePlugins(RiffRaffArtifact)
 
+val p = ".*.json".r
+
 assemblyMergeStrategy in assembly := {
   case "META-INF/MANIFEST.MF" => MergeStrategy.discard
+  case p() => MergeStrategy.discard
   case _ => MergeStrategy.first
 }
 publishArtifact in (Compile, packageDoc) := false
