@@ -40,7 +40,7 @@ object Lambda {
 
   def process()(implicit logger: LambdaLogger): Future[Unit] = {
     val paFootballClient = new PaFootballClient(configuration.paApiKey, configuration.paHost)
-    val result = for {
+    for {
       matches <- paFootballClient.aroundToday
       filteredMatches = matches.filter(inProgress)
     } yield {
@@ -54,7 +54,6 @@ object Lambda {
         }
       }
     }
-    result.map(_ => paFootballClient.terminate)
   }
 
   def putFile(key: String, content: String)(implicit logger: LambdaLogger): Unit = {

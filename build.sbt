@@ -19,8 +19,7 @@ libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
   "com.gu" %% "pa-client" % "6.0.2",
   "com.amazonaws" % "aws-java-sdk" % "1.11.123",
-  "com.typesafe" % "config" % "1.3.1",
-  "com.typesafe.play" %% "play-ws" % "2.5.14"
+  "com.typesafe" % "config" % "1.3.1"
 )
 
 enablePlugins(RiffRaffArtifact)
