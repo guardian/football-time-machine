@@ -24,7 +24,9 @@ libraryDependencies ++= Seq(
 
 enablePlugins(RiffRaffArtifact)
 
-val p = ".*.json".r
+val p = ("models/" +
+  "" +
+  ".*.json").r
 
 assemblyMergeStrategy in assembly := {
   case "META-INF/MANIFEST.MF" => MergeStrategy.discard
