@@ -55,7 +55,7 @@ Resources:
               Effect: Allow
               Action:
                 - s3:GetObject
-              Resource: !Sub arn:aws:s3:::mobile-notifications-dist/${Stage}/*
+              Resource: !Sub arn:aws:s3:::mobile-notifications-dist/PROD/*
         - PolicyName: timeMachineBucket
           PolicyDocument:
             Statement:
