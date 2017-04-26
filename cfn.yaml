@@ -56,7 +56,7 @@ Resources:
               Action:
                 - s3:GetObject
               Resource: !Sub arn:aws:s3:::mobile-notifications-dist/${Stage}/*
-        - PolicyName: s3Config
+        - PolicyName: timeMachineBucket
           PolicyDocument:
             Statement:
               Effect: Allow
