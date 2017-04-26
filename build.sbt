@@ -25,6 +25,10 @@ libraryDependencies ++= Seq(
 
 enablePlugins(RiffRaffArtifact)
 
+assemblyMergeStrategy in assembly := {
+  case _ => MergeStrategy.first
+}
+
 assemblyJarName := s"${name.value}.jar"
 riffRaffPackageType := assembly.value
 riffRaffUploadArtifactBucket := Option("riffraff-artifact")
