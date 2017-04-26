@@ -69,7 +69,7 @@ object Lambda {
   }
 
   private def inProgress(m: MatchDay): Boolean =
-    m.date.isBefore(DateTime.now) && m.date.plus(3 * 60 * 60 * 1000).isAfter(DateTime.now)
+    m.date.isBefore(DateTime.now.plusMinutes(5)) && m.date.plus(3 * 60 * 60 * 1000).isAfter(DateTime.now)
 }
 
 object TestIt {
