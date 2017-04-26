@@ -29,6 +29,8 @@ assemblyMergeStrategy in assembly := {
   case "META-INF/MANIFEST.MF" => MergeStrategy.discard
   case _ => MergeStrategy.first
 }
+publishArtifact in (Compile, packageDoc) := false
+publishArtifact in packageDoc := false
 
 assemblyJarName := s"${name.value}.jar"
 riffRaffPackageType := assembly.value
