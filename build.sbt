@@ -3,7 +3,7 @@ def commonSettings(module: String) = List(
   organization := "com.gu",
   description:= "Stores pa feed on s3 to replay them later",
   version := "1.0",
-  scalaVersion := "2.11.8",
+  scalaVersion := "2.11.11",
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
@@ -29,13 +29,23 @@ lazy val archive = project
   .enablePlugins(RiffRaffArtifact)
   .settings(commonSettings("archive"))
   .settings(
-    scalaVersion := "2.11.8",
     libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
       "com.gu" %% "pa-client" % "6.0.2",
       "com.amazonaws" % "aws-java-sdk-s3" % "1.11.128",
       "com.typesafe" % "config" % "1.3.1"
     )
-)
+  )
+
+lazy val api = project
+  .enablePlugins(RiffRaffArtifact)
+  .settings(commonSettings("api"))
+  .settings(
+    libraryDependencies ++= Seq(
+      "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
+      "com.amazonaws" % "aws-java-sdk-s3" % "1.11.128",
+      "com.typesafe" % "config" % "1.3.1"
+    )
+  )
 
 lazy val root = project.in(file(".")).aggregate(archive)

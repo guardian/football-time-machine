@@ -8,7 +8,7 @@ Parameters:
   App:
     Description: Application name
     Type: String
-    Default: football-time-machine
+    Default: football-time-machine-archive
   Stage:
     Description: Stage name
     Type: String
