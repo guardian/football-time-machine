@@ -1,0 +1,19 @@
+stacks: [mobile]
+regions: [eu-west-1]
+
+deployments:
+  football-time-machine:
+    type: aws-lambda
+    parameters:
+      bucket: mobile-dist
+      functionNames: [football-time-machine-]
+      fileName: football-time-machine.jar
+      prefixStack: false
+    dependencies: [football-time-machine-cfn]
+  football-time-machine-cfn:
+    type: cloud-formation
+    app: football-time-machine
+    parameters:
+      prependStackToCloudFormationStackName: false
+      cloudFormationStackName: football-time-machine
+      templatePath: cfn.yaml

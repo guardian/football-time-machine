@@ -1,8 +1,5 @@
-// Comment to get more information during initialization
-logLevel := Level.Warn
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.3")
 
-// The Typesafe repository 
-resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
+addSbtPlugin("com.gu" % "sbt-riffraff-artifact" % "0.9.7")
 
-// Use the Play sbt plugin for Play projects
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.2.1")
+addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.6.0")
