@@ -18,20 +18,17 @@ scalacOptions ++= Seq(
 libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
   "com.gu" %% "pa-client" % "6.0.2",
-  "com.amazonaws" % "aws-java-sdk" % "1.11.123",
+  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.128",
   "com.typesafe" % "config" % "1.3.1"
 )
 
 enablePlugins(RiffRaffArtifact)
 
-val p = ("models/" +
-  "" +
-  ".*.json").r
-
 assemblyMergeStrategy in assembly := {
   case "META-INF/MANIFEST.MF" => MergeStrategy.discard
-  case p() => MergeStrategy.discard
-  case _ => MergeStrategy.first
+  case x =>
+    val oldStrategy = (assemblyMergeStrategy in assembly).value
+    oldStrategy(x)
 }
 publishArtifact in (Compile, packageDoc) := false
 publishArtifact in packageDoc := false
