@@ -12,7 +12,6 @@ import scala.concurrent.{ Await, ExecutionContext, Future }
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationDouble
 
-
 class LambdaInput
 
 object Lambda {
