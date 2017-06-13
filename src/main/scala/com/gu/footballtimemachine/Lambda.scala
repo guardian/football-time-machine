@@ -12,16 +12,8 @@ import scala.concurrent.{ Await, ExecutionContext, Future }
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationDouble
 
-/**
- * This is compatible with aws' lambda JSON to POJO conversion.
- * You can test your lambda by sending it the following payload:
- * {"name": "Bob"}
- */
-class LambdaInput() {
-  var name: String = _
-  def getName(): String = name
-  def setName(theName: String): Unit = name = theName
-}
+
+class LambdaInput
 
 object Lambda {
 
@@ -40,7 +32,7 @@ object Lambda {
 
   def process()(implicit logger: LambdaLogger): Future[Unit] = {
     val paFootballClient = new PaFootballClient(configuration.paApiKey, configuration.paHost)
-    for {
+    val result = for {
       matches <- paFootballClient.aroundToday
       filteredMatches = matches.filter(inProgress)
     } yield {
@@ -53,6 +45,9 @@ object Lambda {
           putFile(s"match/events/apiKey/${theMatch.id}", matchEvents)
         }
       }
+    }
+    result.recover {
+      case e: Exception => logger.log(s"Exception: ${e.getMessage} ${e.getStackTrace.toString}")
     }
   }
 
