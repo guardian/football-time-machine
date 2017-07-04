@@ -1,3 +1,5 @@
+import com.gu.riffraff.artifact.RiffRaffArtifact.autoImport.riffRaffArtifactResources
+
 def commonSettings(module: String) = List(
   name := s"football-time-machine-$module",
   organization := "com.gu",
@@ -18,15 +20,10 @@ def commonSettings(module: String) = List(
   },
   publishArtifact in (Compile, packageDoc) := false,
   publishArtifact in packageDoc := false,
-  assemblyJarName := s"${name.value}.jar",
-  riffRaffPackageType := assembly.value,
-  riffRaffUploadArtifactBucket := Option("riffraff-artifact"),
-  riffRaffUploadManifestBucket := Option("riffraff-builds"),
-  riffRaffArtifactResources += (file("archive-cfn.yaml"), s"${name.value}-cfn/cfn.yaml")
+  assemblyJarName := s"${name.value}.jar"
 )
 
 lazy val archive = project
-  .enablePlugins(RiffRaffArtifact)
   .settings(commonSettings("archive"))
   .settings(
     libraryDependencies ++= Seq(
@@ -38,7 +35,6 @@ lazy val archive = project
   )
 
 lazy val api = project
-  .enablePlugins(RiffRaffArtifact)
   .settings(commonSettings("api"))
   .settings(
     libraryDependencies ++= Seq(
@@ -48,4 +44,14 @@ lazy val api = project
     )
   )
 
-lazy val root = project.in(file(".")).aggregate(archive)
+lazy val root = project.in(file(".")).aggregate(archive, api)
+  .enablePlugins(RiffRaffArtifact)
+  .settings(
+    name := "football-time-machine",
+    riffRaffPackageType := file(".nothing"),
+    riffRaffUploadArtifactBucket := Option("riffraff-artifact"),
+    riffRaffUploadManifestBucket := Option("riffraff-builds"),
+    riffRaffArtifactResources += (file(s"cfn.yaml") -> s"${name.value}-cfn/cfn.yaml"),
+    riffRaffArtifactResources += (assembly in api).value -> s"${(name in api).value}/${(assembly in api).value.getName}",
+    riffRaffArtifactResources += (assembly in archive).value -> s"${(name in archive).value}/${(assembly in archive).value.getName}"
+  )

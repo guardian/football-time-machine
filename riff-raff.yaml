@@ -2,12 +2,20 @@ stacks: [mobile]
 regions: [eu-west-1]
 
 deployments:
-  football-time-machine:
+  football-time-machine-archive:
     type: aws-lambda
     parameters:
       bucket: mobile-dist
-      functionNames: [football-time-machine-]
-      fileName: football-time-machine.jar
+      functionNames: [football-time-machine-archive-]
+      fileName: football-time-machine-archive.jar
+      prefixStack: false
+    dependencies: [football-time-machine-cfn]
+  football-time-machine-api:
+    type: aws-lambda
+    parameters:
+      bucket: mobile-dist
+      functionNames: [football-time-machine-api-]
+      fileName: football-time-machine-api.jar
       prefixStack: false
     dependencies: [football-time-machine-cfn]
   football-time-machine-cfn:
