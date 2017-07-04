@@ -9,7 +9,6 @@ deployments:
       functionNames: [football-time-machine-archive-]
       fileName: football-time-machine-archive.jar
       prefixStack: false
-    dependencies: [football-time-machine-cfn]
   football-time-machine-api:
     type: aws-lambda
     parameters:
@@ -17,11 +16,3 @@ deployments:
       functionNames: [football-time-machine-api-]
       fileName: football-time-machine-api.jar
       prefixStack: false
-    dependencies: [football-time-machine-cfn]
-  football-time-machine-cfn:
-    type: cloud-formation
-    app: football-time-machine
-    parameters:
-      prependStackToCloudFormationStackName: false
-      cloudFormationStackName: football-time-machine
-      templatePath: cfn.yaml

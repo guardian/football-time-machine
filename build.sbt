@@ -51,7 +51,6 @@ lazy val root = project.in(file(".")).aggregate(archive, api)
     riffRaffPackageType := file(".nothing"),
     riffRaffUploadArtifactBucket := Option("riffraff-artifact"),
     riffRaffUploadManifestBucket := Option("riffraff-builds"),
-    riffRaffArtifactResources += (file(s"cfn.yaml") -> s"${name.value}-cfn/cfn.yaml"),
     riffRaffArtifactResources += (assembly in api).value -> s"${(name in api).value}/${(assembly in api).value.getName}",
     riffRaffArtifactResources += (assembly in archive).value -> s"${(name in archive).value}/${(assembly in archive).value.getName}"
   )

@@ -1,4 +1,4 @@
-package com.gu.footballtimemachine.api
+package com.gu.footballtimemachine
 
 import scala.beans.BeanProperty
 

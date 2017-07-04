@@ -14,7 +14,7 @@ import scala.concurrent.duration.DurationDouble
 
 class LambdaInput
 
-object Lambda {
+object ArchiveLambda {
 
   val bucket = "pa-football-time-machine"
   val configuration: Configuration = new Configuration()
@@ -68,7 +68,7 @@ object Lambda {
 
 object TestIt {
   def main(args: Array[String]): Unit = {
-    println(Lambda.process()(new LambdaLogger {
+    println(ArchiveLambda.process()(new LambdaLogger {
       override def log(string: String): Unit = println(string)
     }))
   }

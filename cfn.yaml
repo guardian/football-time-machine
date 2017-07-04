@@ -30,7 +30,7 @@ Resources:
       CodeUri:
         Bucket: !Ref DeployBucket
         Key: !Sub ${Stack}/${Stage}/${App}/${App}.jar
-      FunctionName: !Sub ${App}-${Stage}-archive
+      FunctionName: !Sub ${App}-archive-${Stage}
       Environment:
         Variables:
           Stage: !Ref Stage
