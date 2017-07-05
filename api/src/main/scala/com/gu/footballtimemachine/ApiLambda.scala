@@ -21,16 +21,15 @@ object ApiGatewayResponse {
   }
 }
 
-class ApiGatewayRequest(
-    @BeanProperty var httpMethod: String = null,
-    @BeanProperty var path: String = null,
-    @BeanProperty var queryStringParameters: java.util.Map[String, String] = null,
-    @BeanProperty var headers: java.util.Map[String, String] = null,
-    @BeanProperty var body: String = null,
-    @BeanProperty var base64Encoded: Boolean = false,
-    @BeanProperty var stageVariables: java.util.Map[String, String] = null,
-    @BeanProperty var requestContext: ApiGatewayRequestContext = null
-) {
+class ApiGatewayRequest {
+  @BeanProperty var httpMethod: String = _
+  @BeanProperty var path: String = _
+  @BeanProperty var queryStringParameters: java.util.Map[String, String] = _
+  @BeanProperty var headers: java.util.Map[String, String] = _
+  @BeanProperty var body: String = _
+  @BeanProperty var base64Encoded: Boolean = false
+  @BeanProperty var stageVariables: java.util.Map[String, String] = _
+  @BeanProperty var requestContext: ApiGatewayRequestContext = _
 
   import collection.JavaConverters._
   private def asScalaMap[K, V](m: java.util.Map[K, V]): Map[K, V] = Option(m).map(_.asScala.toMap).getOrElse(Map.empty)
@@ -69,14 +68,13 @@ object ApiLambda {
     println(request.path)
     val s3Object = s3Client.getObject("pa-football-time-machine", request.path.drop(1))
     val content = Source.fromInputStream(s3Object.getObjectContent).mkString
-    ApiGatewayResponse(200, Map("Content-Type" -> "text/xml"), content)
+    ApiGatewayResponse(200, Map("Content-Type" -> "application/xml"), content)
   }
 
   def main(args: Array[String]): Unit = {
-    val req = new ApiGatewayRequest(
-      httpMethod = "GET",
-      path = "/match/info/apiKey/3914704"
-    )
+    val req = new ApiGatewayRequest()
+    req.setHttpMethod("GET")
+    req.setPath("/match/info/apiKey/3914704")
     val resp = handler(req)
 
     println(resp.body)
