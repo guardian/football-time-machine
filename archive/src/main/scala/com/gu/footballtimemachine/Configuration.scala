@@ -5,8 +5,8 @@ import java.util.stream.Collectors
 
 import com.amazonaws.auth.{ AWSCredentialsProviderChain, EnvironmentVariableCredentialsProvider, InstanceProfileCredentialsProvider }
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.regions.{ Region, Regions }
-import com.amazonaws.services.s3.AmazonS3Client
+import com.amazonaws.regions.Regions
+import com.amazonaws.services.s3.{ AmazonS3, AmazonS3ClientBuilder }
 import com.typesafe.config.{ Config, ConfigFactory }
 
 class Configuration {
@@ -17,11 +17,10 @@ class Configuration {
     InstanceProfileCredentialsProvider.getInstance()
   )
 
-  val s3Client: AmazonS3Client = {
-    val c = new AmazonS3Client(credentials)
-    c.setRegion(Region.getRegion(Regions.EU_WEST_1))
-    c
-  }
+  val s3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
+    .withCredentials(credentials)
+    .withRegion(Regions.EU_WEST_1)
+    .build()
 
   val stack: String = Option(System.getenv("Stack")).getOrElse("mobile")
   val stage: String = Option(System.getenv("Stage")).getOrElse("CODE")

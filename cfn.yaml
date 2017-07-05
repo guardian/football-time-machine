@@ -29,7 +29,7 @@ Resources:
       Runtime: java8
       CodeUri:
         Bucket: !Ref DeployBucket
-        Key: !Sub ${Stack}/${Stage}/${App}/${App}.jar
+        Key: !Sub ${Stack}/${Stage}/${App}-archive/${App}-archive.jar
       FunctionName: !Sub ${App}-archive-${Stage}
       Environment:
         Variables:
@@ -62,7 +62,7 @@ Resources:
       Runtime: java8
       CodeUri:
         Bucket: !Ref DeployBucket
-        Key: !Sub ${Stack}/${Stage}/${App}/${App}.jar
+        Key: !Sub ${Stack}/${Stage}/${App}-api/${App}-api.jar
       FunctionName: !Sub ${App}-api-${Stage}
       Environment:
         Variables:
@@ -81,10 +81,6 @@ Resources:
       Policies:
       - Version: '2012-10-17'
         Statement:
-          - Effect: Allow
-            Action:
-              - s3:GetObject
-            Resource: arn:aws:s3:::mobile-notifications-dist/PROD/*
           - Effect: Allow
             Action:
               - s3:*

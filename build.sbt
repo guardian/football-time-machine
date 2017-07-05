@@ -29,7 +29,7 @@ lazy val archive = project
     libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
       "com.gu" %% "pa-client" % "6.0.2",
-      "com.amazonaws" % "aws-java-sdk-s3" % "1.11.128",
+      "com.amazonaws" % "aws-java-sdk-s3" % "1.11.158",
       "com.typesafe" % "config" % "1.3.1"
     )
   )
@@ -39,7 +39,7 @@ lazy val api = project
   .settings(
     libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
-      "com.amazonaws" % "aws-java-sdk-s3" % "1.11.128",
+      "com.amazonaws" % "aws-java-sdk-s3" % "1.11.158",
       "com.typesafe" % "config" % "1.3.1"
     )
   )
