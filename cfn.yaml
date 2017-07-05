@@ -55,3 +55,37 @@ Resources:
             Action:
               - s3:*
             Resource: arn:aws:s3:::pa-football-time-machine/*
+  ApiLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.gu.footballtimemachine.ApiLambda::handler
+      Runtime: java8
+      CodeUri:
+        Bucket: !Ref DeployBucket
+        Key: !Sub ${Stack}/${Stage}/${App}/${App}.jar
+      FunctionName: !Sub ${App}-api-${Stage}
+      Environment:
+        Variables:
+          Stage: !Ref Stage
+          Stack: !Ref Stack
+          App: !Sub ${App}-api
+      Description: Restitutes PA data through a mocked API
+      MemorySize: 256
+      Timeout: 60
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+      Policies:
+      - Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:GetObject
+            Resource: arn:aws:s3:::mobile-notifications-dist/PROD/*
+          - Effect: Allow
+            Action:
+              - s3:*
+            Resource: arn:aws:s3:::pa-football-time-machine/*
