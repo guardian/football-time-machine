@@ -94,13 +94,13 @@ Resources:
       CodeUri:
         Bucket: !Ref DeployBucket
         Key: !Sub ${Stack}/${Stage}/${App}-api/${App}-api.jar
-      FunctionName: !Sub ${App}-api-${Stage}
+      FunctionName: !Sub ${App}-setDate-${Stage}
       Environment:
         Variables:
           Stage: !Ref Stage
           Stack: !Ref Stack
           App: !Sub ${App}-api
-      Description: Restitutes PA data through a mocked API
+      Description: Sets the fake date in order to replay a game
       MemorySize: 256
       Timeout: 60
       Events:
@@ -125,13 +125,13 @@ Resources:
       CodeUri:
         Bucket: !Ref DeployBucket
         Key: !Sub ${Stack}/${Stage}/${App}-api/${App}-api.jar
-      FunctionName: !Sub ${App}-api-${Stage}
+      FunctionName: !Sub ${App}-getTime-${Stage}
       Environment:
         Variables:
           Stage: !Ref Stage
           Stack: !Ref Stack
           App: !Sub ${App}-api
-      Description: Restitutes PA data through a mocked API
+      Description: Displays what time it currently is in order to debug what's happening
       MemorySize: 256
       Timeout: 60
       Events:

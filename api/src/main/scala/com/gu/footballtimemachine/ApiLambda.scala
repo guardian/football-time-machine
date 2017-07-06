@@ -73,12 +73,10 @@ object ApiLambda {
   import collection.JavaConverters._
 
   def getPaData(request: ApiGatewayRequest): ApiGatewayResponse = {
-    println(request.path)
-
     val pathItems = request.path.drop(1).split("/")
     pathItems.update(2, "apiKey")
     val s3Path = pathItems.mkString("/")
-    println(s3Path)
+    println(s"accessing $s3Path")
 
     val currentTime = computeTime
 
@@ -131,9 +129,9 @@ object ApiLambda {
     req.setHttpMethod("GET")
     req.setPath("/match/info/secretKey/3914704")
     req.setQueryStringParameters(Map("startDate" -> "2017-06-11T21:00:00Z", "speed" -> "3").asJava)
-    //val resp = getPaData(req)
+    val resp = getPaData(req)
     //val resp = setOffset(req)
-    val resp = getTime(req)
+    //val resp = getTime(req)
 
     println(resp.body)
   }

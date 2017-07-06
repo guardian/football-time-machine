@@ -13,6 +13,6 @@ deployments:
     type: aws-lambda
     parameters:
       bucket: mobile-dist
-      functionNames: [football-time-machine-api-]
+      functionNames: [football-time-machine-api-, football-time-machine-setDate-, football-time-machine-getTime-]
       fileName: football-time-machine-api.jar
       prefixStack: false
