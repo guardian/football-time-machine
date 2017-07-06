@@ -1,14 +1,16 @@
 package com.gu.footballtimemachine
 
-import java.io.{ ByteArrayInputStream, InputStream }
+import java.io.{ByteArrayInputStream, InputStream}
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
-import com.amazonaws.services.lambda.runtime.{ Context, LambdaLogger }
-import com.amazonaws.services.s3.model.{ ObjectMetadata, PutObjectRequest }
+import com.amazonaws.services.lambda.runtime.{Context, LambdaLogger}
+import com.amazonaws.services.s3.model.{ObjectMetadata, PutObjectRequest}
 import com.amazonaws.util.StringUtils
 import org.joda.time.DateTime
 import pa.MatchDay
 
-import scala.concurrent.{ Await, ExecutionContext, Future }
+import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationDouble
 
@@ -31,6 +33,7 @@ object ArchiveLambda {
 
   def process()(implicit logger: LambdaLogger): Future[Unit] = {
     val paFootballClient = new PaFootballClient(configuration.paApiKey, configuration.paHost)
+    val today = LocalDate.now.format(DateTimeFormatter.BASIC_ISO_DATE)
     val result = for {
       matches <- paFootballClient.aroundToday
       filteredMatches = matches.filter(inProgress)
@@ -44,6 +47,9 @@ object ArchiveLambda {
           putFile(s"match/events/apiKey/${theMatch.id}", matchEvents)
         }
       }
+    }
+    paFootballClient.matchDayString(today).map { matchDay =>
+      putFile(s"competitions/matchDay/apiKey/$today", matchDay)
     }
     result.recover {
       case e: Exception => logger.log(s"Exception: ${e.getMessage} ${e.getStackTrace.toString}")
