@@ -85,6 +85,10 @@ Resources:
             Action:
               - s3:*
             Resource: arn:aws:s3:::pa-football-time-machine/*
+          - Effect: Allow
+            Action:
+              - s3:*
+            Resource: arn:aws:s3:::pa-football-time-machine
 
   SetDateLambda:
     Type: AWS::Serverless::Function
