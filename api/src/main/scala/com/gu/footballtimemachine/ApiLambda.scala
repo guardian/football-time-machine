@@ -1,5 +1,6 @@
 package com.gu.footballtimemachine
 
+import java.time.format.DateTimeFormatter
 import java.time.{Instant, ZoneId, ZonedDateTime}
 
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
@@ -105,7 +106,7 @@ object ApiLambda {
     s3Client.putObject(bucket, "speed", speed.toString)
 
     val date = ZonedDateTime.ofInstant(Instant.ofEpochMilli(computeTime), ZoneId.of("Europe/London"))
-    ApiGatewayResponse(200, Map.empty, body = s"""{"currentDate":"$date"}""")
+    ApiGatewayResponse(200, Map.empty, body = s"""{"currentDate":"${date.format(DateTimeFormatter.ISO_DATE_TIME)}"}""")
   }
 
   def computeTime: Long = {
@@ -122,7 +123,7 @@ object ApiLambda {
 
   def getTime(request: ApiGatewayRequest): ApiGatewayResponse = {
     val date = ZonedDateTime.ofInstant(Instant.ofEpochMilli(computeTime), ZoneId.of("Europe/London"))
-    ApiGatewayResponse(200, Map.empty, body = s"""{"currentDate":"$date"}""")
+    ApiGatewayResponse(200, Map.empty, body = s"""{"currentDate":"${date.format(DateTimeFormatter.ISO_DATE_TIME)}"}""")
   }
 
   def main(args: Array[String]): Unit = {
