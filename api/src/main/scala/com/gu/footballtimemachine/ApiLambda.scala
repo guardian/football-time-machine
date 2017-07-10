@@ -1,13 +1,12 @@
 package com.gu.footballtimemachine
 
-import java.time.ZonedDateTime
-import java.util.Date
+import java.time.{Instant, ZoneId, ZonedDateTime}
 
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.auth.{ AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain }
+import com.amazonaws.auth.{AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain}
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.model.GetObjectRequest
-import com.amazonaws.services.s3.{ AmazonS3, AmazonS3ClientBuilder }
+import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
 
 import scala.beans.BeanProperty
 import scala.io.Source
@@ -105,7 +104,8 @@ object ApiLambda {
     val speed = request.queryStringParamMap.getOrElse("speed", 5)
     s3Client.putObject(bucket, "speed", speed.toString)
 
-    ApiGatewayResponse(200, Map.empty, body = s"""{"currentDate":"${new Date(computeTime)}"}""")
+    val date = ZonedDateTime.ofInstant(Instant.ofEpochMilli(computeTime), ZoneId.of("Europe/London"))
+    ApiGatewayResponse(200, Map.empty, body = s"""{"currentDate":"$date"}""")
   }
 
   def computeTime: Long = {
@@ -121,7 +121,8 @@ object ApiLambda {
   }
 
   def getTime(request: ApiGatewayRequest): ApiGatewayResponse = {
-    ApiGatewayResponse(200, Map.empty, body = s"""{"currentDate":"${new Date(computeTime)}"}""")
+    val date = ZonedDateTime.ofInstant(Instant.ofEpochMilli(computeTime), ZoneId.of("Europe/London"))
+    ApiGatewayResponse(200, Map.empty, body = s"""{"currentDate":"$date"}""")
   }
 
   def main(args: Array[String]): Unit = {
