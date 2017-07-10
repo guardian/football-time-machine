@@ -106,7 +106,7 @@ object ApiLambda {
     s3Client.putObject(bucket, "speed", speed.toString)
 
     val date = ZonedDateTime.ofInstant(Instant.ofEpochMilli(computeTime), ZoneId.of("Europe/London"))
-    ApiGatewayResponse(200, Map.empty, body = s"""{"currentDate":"${date.format(DateTimeFormatter.ISO_DATE_TIME)}"}""")
+    ApiGatewayResponse(200, Map.empty, body = s"""{"currentDate":"${date.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)}"}""")
   }
 
   def computeTime: Long = {
@@ -123,7 +123,7 @@ object ApiLambda {
 
   def getTime(request: ApiGatewayRequest): ApiGatewayResponse = {
     val date = ZonedDateTime.ofInstant(Instant.ofEpochMilli(computeTime), ZoneId.of("Europe/London"))
-    ApiGatewayResponse(200, Map.empty, body = s"""{"currentDate":"${date.format(DateTimeFormatter.ISO_DATE_TIME)}"}""")
+    ApiGatewayResponse(200, Map.empty, body = s"""{"currentDate":"${date.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)}"}""")
   }
 
   def main(args: Array[String]): Unit = {
