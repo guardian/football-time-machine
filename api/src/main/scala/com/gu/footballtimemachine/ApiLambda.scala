@@ -1,13 +1,13 @@
 package com.gu.footballtimemachine
 
 import java.time.format.DateTimeFormatter
-import java.time.{Instant, ZoneId, ZonedDateTime}
+import java.time.{ Instant, ZoneId, ZonedDateTime }
 
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.auth.{AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain}
+import com.amazonaws.auth.{ AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain }
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.model.GetObjectRequest
-import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
+import com.amazonaws.services.s3.{ AmazonS3, AmazonS3ClientBuilder }
 
 import scala.beans.BeanProperty
 import scala.io.Source
@@ -81,7 +81,7 @@ object ApiLambda {
     val currentTime = computeTime
 
     val versions = s3Client.listVersions(bucket, s3Path).getVersionSummaries.asScala.toList.sortBy(_.getLastModified)
-    val version = versions.find(_.getLastModified.getTime < currentTime).getOrElse(versions.last).getVersionId
+    val version = versions.find(_.getLastModified.getTime > currentTime).getOrElse(versions.last).getVersionId
 
     val gor = new GetObjectRequest(bucket, s3Path)
     gor.setVersionId(version)
@@ -129,7 +129,7 @@ object ApiLambda {
   def main(args: Array[String]): Unit = {
     val req = new ApiGatewayRequest()
     req.setHttpMethod("GET")
-    req.setPath("/match/info/secretKey/3914704")
+    req.setPath("/competitions/matchDay/apiKey/20170809")
     req.setQueryStringParameters(Map("startDate" -> "2017-06-11T21:00:00Z", "speed" -> "3").asJava)
     val resp = getPaData(req)
     //val resp = setOffset(req)
