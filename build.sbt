@@ -44,6 +44,10 @@ lazy val api = project
     )
   )
 
+lazy val download = project.settings(
+  libraryDependencies += "com.amazonaws" % "aws-java-sdk-s3" % "1.11.158"
+)
+
 lazy val root = project.in(file(".")).aggregate(archive, api)
   .enablePlugins(RiffRaffArtifact)
   .settings(
