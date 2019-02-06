@@ -49,12 +49,13 @@ Resources:
         Statement:
           - Effect: Allow
             Action:
-              - s3:GetObject
-            Resource: arn:aws:s3:::mobile-notifications-dist/PROD/*
-          - Effect: Allow
-            Action:
               - s3:*
             Resource: arn:aws:s3:::pa-football-time-machine/*
+          - Effect: Allow
+            Action:
+              - ssm:GetParametersByPath
+            Resource: !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${App}-archive/${Stage}/${Stack}
+
   ApiLambda:
     Type: AWS::Serverless::Function
     Properties:
@@ -90,6 +91,7 @@ Resources:
               - s3:*
             Resource: arn:aws:s3:::pa-football-time-machine
 
+
   SetDateLambda:
     Type: AWS::Serverless::Function
     Properties:
@@ -120,6 +122,8 @@ Resources:
             Action:
               - s3:*
             Resource: arn:aws:s3:::pa-football-time-machine/*
+
+
 
   GetTimeLambda:
     Type: AWS::Serverless::Function
