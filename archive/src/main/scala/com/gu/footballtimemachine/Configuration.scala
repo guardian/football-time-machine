@@ -3,7 +3,7 @@ package com.gu.footballtimemachine
 import java.io.{BufferedReader, InputStreamReader}
 import java.util.stream.Collectors
 
-import com.amazonaws.auth.{AWSCredentialsProviderChain, EnvironmentVariableCredentialsProvider, InstanceProfileCredentialsProvider}
+import com.amazonaws.auth.{AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain, EnvironmentVariableCredentialsProvider, InstanceProfileCredentialsProvider}
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
@@ -14,9 +14,8 @@ import com.typesafe.config.{Config, ConfigFactory}
 class Configuration {
 
   val credentials = new AWSCredentialsProviderChain(
-    new EnvironmentVariableCredentialsProvider(),
     new ProfileCredentialsProvider("mobile"),
-    InstanceProfileCredentialsProvider.getInstance()
+    DefaultAWSCredentialsProviderChain.getInstance()
   )
 
   val s3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
