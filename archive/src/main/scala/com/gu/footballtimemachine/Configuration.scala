@@ -1,13 +1,15 @@
 package com.gu.footballtimemachine
 
-import java.io.{ BufferedReader, InputStreamReader }
+import java.io.{BufferedReader, InputStreamReader}
 import java.util.stream.Collectors
 
-import com.amazonaws.auth.{ AWSCredentialsProviderChain, EnvironmentVariableCredentialsProvider, InstanceProfileCredentialsProvider }
+import com.amazonaws.auth.{AWSCredentialsProviderChain, EnvironmentVariableCredentialsProvider, InstanceProfileCredentialsProvider}
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.regions.Regions
-import com.amazonaws.services.s3.{ AmazonS3, AmazonS3ClientBuilder }
-import com.typesafe.config.{ Config, ConfigFactory }
+import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
+import com.gu.{AppIdentity, AwsIdentity}
+import com.gu.conf.{ConfigurationLoader, SSMConfigurationLocation}
+import com.typesafe.config.{Config, ConfigFactory}
 
 class Configuration {
 
@@ -24,13 +26,17 @@ class Configuration {
 
   val stack: String = Option(System.getenv("Stack")).getOrElse("mobile")
   val stage: String = Option(System.getenv("Stage")).getOrElse("CODE")
-  val app: String = Option(System.getenv("App")).getOrElse("DEV")
+  val app: String = Option(System.getenv("App")).getOrElse("football-time-machine")
 
-  private val conf: Config = {
-    val dataStream = s3Client.getObject("mobile-notifications-dist", s"PROD/football/football.conf").getObjectContent
-    val data = new BufferedReader(new InputStreamReader(dataStream)).lines.collect(Collectors.joining("\n"))
-    ConfigFactory.parseString(data)
+  val conf = {
+    val identity = AppIdentity.whoAmI(defaultAppName = app)
+    ConfigurationLoader.load(identity = identity, credentials = credentials) {
+      case AwsIdentity(app, stack, stage, _) =>
+        SSMConfigurationLocation(path = s"/$app/$stage/$stack")
+    }
+
   }
+
 
   val paApiKey: String = conf.getString("pa.api-key")
   val paHost: String = conf.getString("pa.host")

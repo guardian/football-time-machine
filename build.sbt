@@ -26,9 +26,11 @@ def commonSettings(module: String) = List(
 lazy val archive = project
   .settings(commonSettings("archive"))
   .settings(
-    libraryDependencies ++= Seq(
+    resolvers += "Guardian Platform Bintray" at "https://dl.bintray.com/guardian/platforms",
+      libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
       "com.gu" %% "pa-client" % "6.0.2",
+      "com.gu" %% "simple-configuration-ssm" % "1.5.0",
       "com.amazonaws" % "aws-java-sdk-s3" % "1.11.158",
       "com.typesafe" % "config" % "1.3.1"
     )
