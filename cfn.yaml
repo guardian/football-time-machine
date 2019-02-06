@@ -54,7 +54,7 @@ Resources:
           - Effect: Allow
             Action:
               - ssm:GetParametersByPath
-            Resource: !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${App}/${Stage}/${Stack}
+            Resource: !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${App}-archive/${Stage}/${Stack}
 
   ApiLambda:
     Type: AWS::Serverless::Function
