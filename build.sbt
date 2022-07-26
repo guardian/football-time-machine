@@ -1,4 +1,5 @@
 import com.gu.riffraff.artifact.RiffRaffArtifact.autoImport._
+import sbtassembly.MergeStrategy
 
 def commonSettings(module: String) = List(
   name := s"football-time-machine-$module",
@@ -14,9 +15,7 @@ def commonSettings(module: String) = List(
   ),
   assembly / assemblyMergeStrategy := {
     case "META-INF/MANIFEST.MF" => MergeStrategy.discard
-    case x =>
-      val oldStrategy = (assembly /assemblyMergeStrategy).value
-      oldStrategy(x)
+    case _ => MergeStrategy.first
   },
   Compile / packageDoc / publishArtifact := false,
   packageDoc / publishArtifact := false,
