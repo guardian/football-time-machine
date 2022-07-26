@@ -2,19 +2,15 @@ package com.gu.footballtimemachine
 
 import java.net.URL
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-
 import com.amazonaws.services.lambda.runtime.LambdaLogger
 import pa._
 
-import scala.concurrent.{ExecutionContext, Future}
-import org.joda.time.DateTime
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{ ExecutionContext, Future }
 
 import scala.io.Source
 
 class PaFootballClient(override val apiKey: String, apiBase: String)(implicit logger: LambdaLogger) extends PaClient with pa.Http {
-
-  import ExecutionContext.Implicits.global
 
   override lazy val base = apiBase
 
@@ -27,15 +23,15 @@ class PaFootballClient(override val apiKey: String, apiBase: String)(implicit lo
 
   override protected def get(suffix: String)(implicit context: ExecutionContext): Future[String] = super.get(suffix)(context)
 
-  def aroundToday: Future[List[MatchDay]] = matchDay(DateTime.now.toLocalDate)
+  def aroundToday: Future[List[MatchDay]] = matchDay(LocalDate.now)
 
-  def matchInfoString(id: String)(implicit context: ExecutionContext): Future[String] =
+  def matchInfoString(id: String): Future[String] =
     get(s"/match/info/$apiKey/$id").map(interceptErrors)
 
-  def matchEventsString(id: String)(implicit context: ExecutionContext): Future[String] =
+  def matchEventsString(id: String): Future[String] =
     get(s"/match/events/$apiKey/$id").map(interceptErrors)
 
-  def matchDayString(date: String)(implicit context: ExecutionContext): Future[String] =
+  def matchDayString(date: String): Future[String] =
     get(s"/competitions/matchDay/$apiKey/$date").map(interceptErrors)
 
 }

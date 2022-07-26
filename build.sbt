@@ -1,36 +1,39 @@
-import com.gu.riffraff.artifact.RiffRaffArtifact.autoImport.riffRaffArtifactResources
+import com.gu.riffraff.artifact.RiffRaffArtifact.autoImport._
 
 def commonSettings(module: String) = List(
   name := s"football-time-machine-$module",
   organization := "com.gu",
   description:= "Stores pa feed on s3 to replay them later",
   version := "1.0",
-  scalaVersion := "2.11.11",
+  scalaVersion := "2.12.16",
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
     "-target:jvm-1.8",
     "-Ywarn-dead-code"
   ),
-  assemblyMergeStrategy in assembly := {
+  assembly / assemblyMergeStrategy := {
     case "META-INF/MANIFEST.MF" => MergeStrategy.discard
     case x =>
-      val oldStrategy = (assemblyMergeStrategy in assembly).value
+      val oldStrategy = (assembly /assemblyMergeStrategy).value
       oldStrategy(x)
   },
-  publishArtifact in (Compile, packageDoc) := false,
-  publishArtifact in packageDoc := false,
+  Compile / packageDoc / publishArtifact := false,
+  packageDoc / publishArtifact := false,
   assemblyJarName := s"${name.value}.jar"
 )
 
 lazy val archive = project
   .settings(commonSettings("archive"))
   .settings(
-    resolvers += "Guardian Platform Bintray" at "https://dl.bintray.com/guardian/platforms",
+    resolvers ++= Seq(
+      "Guardian GitHub Releases" at "https://guardian.github.com/maven/repo-releases",
+      "Guardian GitHub Snapshots" at "https://guardian.github.com/maven/repo-snapshots"
+    ),
       libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
-      "com.gu" %% "pa-client" % "6.0.2",
-      "com.gu" %% "simple-configuration-ssm" % "1.5.0",
+      "com.gu" %% "pa-client" % "7.0.5",
+      "com.gu" %% "simple-configuration-ssm" % "1.5.6",
       "com.amazonaws" % "aws-java-sdk-s3" % "1.11.158",
       "com.typesafe" % "config" % "1.3.1"
     )
