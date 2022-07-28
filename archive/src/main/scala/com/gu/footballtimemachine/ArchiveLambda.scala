@@ -1,18 +1,17 @@
 package com.gu.footballtimemachine
 
-import java.io.{ByteArrayInputStream, InputStream}
-import java.time.LocalDate
+import java.io.{ ByteArrayInputStream, InputStream }
+import java.time.{ LocalDate, ZonedDateTime }
 import java.time.format.DateTimeFormatter
-
-import com.amazonaws.services.lambda.runtime.{Context, LambdaLogger}
-import com.amazonaws.services.s3.model.{ObjectMetadata, PutObjectRequest}
+import com.amazonaws.services.lambda.runtime.{ Context, LambdaLogger }
+import com.amazonaws.services.s3.model.{ ObjectMetadata, PutObjectRequest }
 import com.amazonaws.util.StringUtils
 import org.joda.time.DateTime
 import pa.MatchDay
 
-import scala.concurrent.{Await, Future}
+import scala.concurrent.{ Await, Future }
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.DurationDouble
+import scala.concurrent.duration.{ DurationDouble, MINUTES }
 
 class LambdaInput
 
@@ -69,7 +68,7 @@ object ArchiveLambda {
   }
 
   private def inProgress(m: MatchDay): Boolean =
-    m.date.isBefore(DateTime.now.plusMinutes(5)) && m.date.plus(3 * 60 * 60 * 1000).isAfter(DateTime.now)
+    m.date.isBefore(ZonedDateTime.now.plusMinutes(5)) && m.date.plusHours(3).isAfter(ZonedDateTime.now)
 }
 
 object TestIt {
