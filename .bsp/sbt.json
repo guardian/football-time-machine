@@ -1,0 +1,1 @@
+{"name":"sbt","version":"1.6.2","bspVersion":"2.0.0-M5","languages":["scala"],"argv":["/Users/francesca_hammond/.asdf/installs/java/corretto-8.342.07.3/jre/bin/java","-Xms100m","-Xmx100m","-classpath","/opt/homebrew/Cellar/sbt/1.7.1/libexec/bin/sbt-launch.jar","-Dsbt.script=/opt/homebrew/Cellar/sbt/1.7.1/libexec/bin/sbt","xsbt.boot.Boot","-bsp"]}

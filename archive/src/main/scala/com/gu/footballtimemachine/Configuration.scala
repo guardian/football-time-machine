@@ -7,14 +7,9 @@ import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
 import com.gu.conf.{ConfigurationLoader, SSMConfigurationLocation}
 import com.gu.{AppIdentity, AwsIdentity}
 import com.typesafe.config.Config
-import org.slf4j.LoggerFactory
 import software.amazon.awssdk.auth.credentials.{AwsCredentialsProviderChain => AwsCredentialsProviderChainV2, DefaultCredentialsProvider => DefaultCredentialsProviderV2, ProfileCredentialsProvider => ProfileCredentialsProviderV2}
 
 import scala.util.{Failure, Success, Try}
-
-trait Logging {
-  val logger = LoggerFactory.getLogger(this.getClass)
-}
 class Configuration extends Logging {
   logger.info("Starting to get config")
 
