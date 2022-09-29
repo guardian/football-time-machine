@@ -12,8 +12,10 @@ import software.amazon.awssdk.auth.credentials.{AwsCredentialsProviderChain => A
 
 import scala.util.{Failure, Success, Try}
 
-class Configuration {
+trait Logging {
   val logger = LoggerFactory.getLogger(this.getClass)
+}
+class Configuration extends Logging {
   logger.info("Starting to get config")
 
   val credentials = new AWSCredentialsProviderChain(
