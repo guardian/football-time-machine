@@ -14,6 +14,7 @@ import scala.util.{Failure, Success, Try}
 
 class Configuration {
   val logger = LoggerFactory.getLogger(this.getClass)
+  logger.info("Starting to get config")
 
   val credentials = new AWSCredentialsProviderChain(
     new ProfileCredentialsProvider("mobile"),
@@ -32,27 +33,30 @@ class Configuration {
   val stage: String = Option(System.getenv("Stage")).getOrElse("CODE")
   val app: String = Option(System.getenv("App")).getOrElse("football-time-machine")
 
-  val conf: Try[Config] =
+  val conf =
     for {
       identity <- AppIdentity.whoAmI(defaultAppName = app, credentialsv2)
+      _ = logger.info("got identity")
       config <- Try(ConfigurationLoader.load(identity, credentialsv2) {
         case AwsIdentity(app, stack, stage, _) =>
           SSMConfigurationLocation(path = s"/$app/$stage/$stack", region = Regions.EU_WEST_1.toString)
       })
-    } yield config
+      _ = logger.info("got config")
+    } yield (config, identity)
 
-  val config: Config = conf match {
-    case Success(config) => {
+  logger.info("Got identity and config")
+
+  val config: (Config, AppIdentity) = conf match {
+    case Success((config, identity)) =>
       logger.info("Successfully loaded configuration")
-      config
-    }
+      (config, identity)
     case Failure(err) => {
       logger.info("Failed to load configuration")
       throw err
     }
   }
 
-  val paApiKey: String = config.getString("pa.api-key")
-  val paHost: String = config.getString("pa.host")
+  val paApiKey: String = config._1.getString("pa.api-key")
+  val paHost: String = config._1.getString("pa.host")
 
 }
