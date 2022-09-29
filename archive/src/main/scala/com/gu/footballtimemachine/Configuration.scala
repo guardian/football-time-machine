@@ -11,11 +11,13 @@ class Configuration {
 
   val credentials = new AWSCredentialsProviderChain(
     new ProfileCredentialsProvider("mobile"),
-    DefaultAWSCredentialsProviderChain.getInstance())
+    DefaultAWSCredentialsProviderChain.getInstance()
+  )
 
   val credentialsv2 = AwsCredentialsProviderChainV2.of(
     ProfileCredentialsProviderV2.builder.profileName("mobile").build,
-    DefaultCredentialsProviderV2.create)
+    DefaultCredentialsProviderV2.create
+  )
 
   val s3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
     .withCredentials(credentials)
@@ -32,6 +34,7 @@ class Configuration {
       case AwsIdentity(app, stack, stage, _) =>
         SSMConfigurationLocation(path = s"/$app/$stage/$stack", region = Regions.EU_WEST_1.toString)
     }
+
   }
 
   val paApiKey: String = conf.getString("pa.api-key")
