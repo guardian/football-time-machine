@@ -1,16 +1,17 @@
 package com.gu.footballtimemachine
 
-import com.amazonaws.services.lambda.runtime.{Context, LambdaLogger}
-import com.amazonaws.services.s3.model.{ObjectMetadata, PutObjectRequest}
+import java.io.{ ByteArrayInputStream, InputStream }
+import java.time.{ LocalDate, ZonedDateTime }
+import java.time.format.DateTimeFormatter
+import com.amazonaws.services.lambda.runtime.{ Context, LambdaLogger }
+import com.amazonaws.services.s3.model.{ ObjectMetadata, PutObjectRequest }
 import com.amazonaws.util.StringUtils
+import org.joda.time.DateTime
 import pa.MatchDay
 
-import java.io.{ByteArrayInputStream, InputStream}
-import java.time.format.DateTimeFormatter
-import java.time.{LocalDate, ZonedDateTime}
+import scala.concurrent.{ Await, Future }
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.DurationDouble
-import scala.concurrent.{Await, Future}
+import scala.concurrent.duration.{ DurationDouble, MINUTES }
 
 class LambdaInput
 
