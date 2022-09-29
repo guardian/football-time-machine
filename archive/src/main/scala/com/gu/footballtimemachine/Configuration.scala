@@ -1,12 +1,21 @@
 package com.gu.footballtimemachine
 
+import java.io.{ BufferedReader, InputStreamReader }
+import java.util.stream.Collectors
+
+import com.amazonaws.auth.{ AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain, EnvironmentVariableCredentialsProvider, InstanceProfileCredentialsProvider }
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.auth.{AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain}
 import com.amazonaws.regions.Regions
-import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
-import com.gu.conf.{ConfigurationLoader, SSMConfigurationLocation}
-import com.gu.{AppIdentity, AwsIdentity}
-import software.amazon.awssdk.auth.credentials.{AwsCredentialsProviderChain => AwsCredentialsProviderChainV2, DefaultCredentialsProvider => DefaultCredentialsProviderV2, ProfileCredentialsProvider => ProfileCredentialsProviderV2}
+import com.amazonaws.services.s3.{ AmazonS3, AmazonS3ClientBuilder }
+import com.gu.{ AppIdentity, AwsIdentity }
+import com.gu.conf.{ ConfigurationLoader, SSMConfigurationLocation }
+import com.typesafe.config.{ Config, ConfigFactory }
+import software.amazon.awssdk.auth.credentials.{
+  AwsCredentialsProviderChain => AwsCredentialsProviderChainV2,
+  ProfileCredentialsProvider => ProfileCredentialsProviderV2,
+  DefaultCredentialsProvider => DefaultCredentialsProviderV2
+}
+
 class Configuration {
 
   val credentials = new AWSCredentialsProviderChain(
