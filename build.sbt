@@ -32,9 +32,10 @@ lazy val archive = project
       libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
       "com.gu" %% "pa-client" % "7.0.5",
-      "com.gu" %% "simple-configuration-ssm" % "1.5.7",
+      "com.gu" %% "simple-configuration-ssm" % "1.5.6",
       "com.amazonaws" % "aws-java-sdk-s3" % "1.11.158",
-      "com.typesafe" % "config" % "1.3.1"
+      "com.typesafe" % "config" % "1.3.1",
+      "ch.qos.logback" % "logback-classic" % "1.2.11",
     )
   )
 
