@@ -1,20 +1,15 @@
 package com.gu.footballtimemachine
 
-import java.io.{ BufferedReader, InputStreamReader }
+import java.io.{BufferedReader, InputStreamReader}
 import java.util.stream.Collectors
-
-import com.amazonaws.auth.{ AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain, EnvironmentVariableCredentialsProvider, InstanceProfileCredentialsProvider }
+import com.amazonaws.auth.{AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain, EnvironmentVariableCredentialsProvider, InstanceProfileCredentialsProvider}
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.regions.Regions
-import com.amazonaws.services.s3.{ AmazonS3, AmazonS3ClientBuilder }
-import com.gu.{ AppIdentity, AwsIdentity }
-import com.gu.conf.{ ConfigurationLoader, SSMConfigurationLocation }
-import com.typesafe.config.{ Config, ConfigFactory }
-import software.amazon.awssdk.auth.credentials.{
-  AwsCredentialsProviderChain => AwsCredentialsProviderChainV2,
-  ProfileCredentialsProvider => ProfileCredentialsProviderV2,
-  DefaultCredentialsProvider => DefaultCredentialsProviderV2
-}
+import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
+import com.gu.{AppIdentity, AwsIdentity, DevIdentity}
+import com.gu.conf.{ConfigurationLoader, SSMConfigurationLocation}
+import com.typesafe.config.{Config, ConfigFactory}
+import software.amazon.awssdk.auth.credentials.{AwsCredentialsProviderChain => AwsCredentialsProviderChainV2, DefaultCredentialsProvider => DefaultCredentialsProviderV2, ProfileCredentialsProvider => ProfileCredentialsProviderV2}
 
 class Configuration {
 
@@ -41,7 +36,9 @@ class Configuration {
     val identity = AppIdentity.whoAmI(defaultAppName = app, credentialsv2)
     ConfigurationLoader.load(identity, credentialsv2) {
       case AwsIdentity(app, stack, stage, _) =>
-        SSMConfigurationLocation(path = s"/$app/$stage/$stack", region = Regions.EU_WEST_1.toString)
+        SSMConfigurationLocation(path = s"/$app/$stage/$stack", region = "eu-west-1")
+      case DevIdentity(app) =>
+        SSMConfigurationLocation(path = s"/$app/$stage/$stack", region = "eu-west-1")
     }
 
   }
