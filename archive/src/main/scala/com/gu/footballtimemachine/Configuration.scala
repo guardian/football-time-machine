@@ -18,7 +18,7 @@ class Configuration {
     DefaultAWSCredentialsProviderChain.getInstance())
 
   val credentialsv2: AwsCredentialsProviderChainV2 = AwsCredentialsProviderChainV2.of(
-    //    ProfileCredentialsProviderV2.builder.profileName("mobile").build,
+    ProfileCredentialsProviderV2.builder.profileName("mobile").build,
     DefaultCredentialsProviderV2.create)
 
   LoggerFactory.getLogger("ConfigurationLogger").info("Got credentials")
@@ -36,11 +36,11 @@ class Configuration {
 
   val conf: Config = {
     val identity = AppIdentity.whoAmI(defaultAppName = app)
-    ConfigurationLoader.load(identity) {
+    ConfigurationLoader.load(identity, credentialsv2) {
       case AwsIdentity(app, stack, stage, _) =>
-        SSMConfigurationLocation(path = s"/$app/$stage/$stack", region = "eu-west-1")
-      case DevIdentity(app) =>
-        SSMConfigurationLocation(path = s"/$app/$stage/$stack", region = "eu-west-1")
+        SSMConfigurationLocation(path = s"/$app/$stage/$stack")
+//      case DevIdentity(app) =>
+//        SSMConfigurationLocation(path = s"/$app/$stage/$stack", region = "eu-west-1")
     }
   }
 
