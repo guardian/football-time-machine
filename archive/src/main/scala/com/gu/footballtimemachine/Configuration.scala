@@ -36,11 +36,11 @@ class Configuration {
 
   val conf: Config = {
     val identity = AppIdentity.whoAmI(defaultAppName = app)
-    ConfigurationLoader.load(identity, credentialsv2) {
+    ConfigurationLoader.load(identity, ProfileCredentialsProviderV2.builder.profileName("mobile").build) {
       case AwsIdentity(app, stack, stage, _) =>
         SSMConfigurationLocation(path = s"/$app/$stage/$stack")
-//      case DevIdentity(app) =>
-//        SSMConfigurationLocation(path = s"/$app/$stage/$stack", region = "eu-west-1")
+      case DevIdentity(app) =>
+        SSMConfigurationLocation(path = s"/$app/$stage/$stack", region = "eu-west-1")
     }
   }
 
