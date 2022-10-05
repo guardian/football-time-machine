@@ -37,7 +37,7 @@ Resources:
           Stack: !Ref Stack
           App: !Sub ${App}-archive
       Description: Stores pa feed on s3
-      MemorySize: 256
+      MemorySize: 512
       Timeout: 60
       Events:
         Timer:
