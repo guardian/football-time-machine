@@ -1,17 +1,18 @@
 package com.gu.footballtimemachine
 
-import com.amazonaws.auth.{ AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain, EnvironmentVariableCredentialsProvider, InstanceProfileCredentialsProvider }
+import com.amazonaws.auth.{AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain, EnvironmentVariableCredentialsProvider, InstanceProfileCredentialsProvider}
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.regions.Regions
-import com.amazonaws.services.s3.{ AmazonS3, AmazonS3ClientBuilder }
-import com.gu.{ AppIdentity, AwsIdentity, DevIdentity }
-import com.gu.conf.{ ConfigurationLoader, SSMConfigurationLocation }
+import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
+import com.gu.{AppIdentity, AwsIdentity, DevIdentity}
+import com.gu.conf.{ConfigurationLoader, SSMConfigurationLocation}
 import com.typesafe.config.Config
-import software.amazon.awssdk.auth.credentials.{ AwsCredentialsProviderChain => AwsCredentialsProviderChainV2, DefaultCredentialsProvider => DefaultCredentialsProviderV2, ProfileCredentialsProvider => ProfileCredentialsProviderV2 }
-import org.slf4j.LoggerFactory
+import software.amazon.awssdk.auth.credentials.{AwsCredentialsProviderChain => AwsCredentialsProviderChainV2, DefaultCredentialsProvider => DefaultCredentialsProviderV2, ProfileCredentialsProvider => ProfileCredentialsProviderV2}
+import org.slf4j.{Logger, LoggerFactory}
 
 class Configuration {
-  LoggerFactory.getLogger("ConfigurationLogger").info("About to get credentials")
+  private val configurationLogger: Logger = LoggerFactory.getLogger("ConfigurationLogger")
+  configurationLogger.info("About to get credentials")
 
   val credentials = new AWSCredentialsProviderChain(
     new ProfileCredentialsProvider("mobile"),
@@ -21,7 +22,7 @@ class Configuration {
 //    ProfileCredentialsProviderV2.builder.profileName("mobile").build,
     DefaultCredentialsProviderV2.create)
 
-  LoggerFactory.getLogger("ConfigurationLogger").info("Got credentials")
+  configurationLogger.info("Got credentials")
 
   val s3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
     .withCredentials(credentials)
@@ -32,7 +33,7 @@ class Configuration {
   val stage: String = Option(System.getenv("Stage")).getOrElse("CODE")
   val app: String = Option(System.getenv("App")).getOrElse("football-time-machine")
 
-  LoggerFactory.getLogger("ConfigurationLogger").info("About to get configuration")
+  configurationLogger.info("About to get configuration")
 
   val conf: Config = {
     val identity = AppIdentity.whoAmI(defaultAppName = app)
@@ -44,11 +45,11 @@ class Configuration {
     }
   }
 
-  LoggerFactory.getLogger("ConfigurationLogger").info("Got configuration")
+  configurationLogger.info("Got configuration")
 
   val paApiKey: String = conf.getString("pa.api-key")
   val paHost: String = conf.getString("pa.host")
 
-  LoggerFactory.getLogger("ConfigurationLogger").info("Got ssm values")
+  configurationLogger.info("Got ssm values")
 
 }
