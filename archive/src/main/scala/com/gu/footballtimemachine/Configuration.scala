@@ -9,6 +9,8 @@ import com.gu.conf.{ConfigurationLoader, SSMConfigurationLocation}
 import com.typesafe.config.Config
 import software.amazon.awssdk.auth.credentials.{AwsCredentialsProviderChain => AwsCredentialsProviderChainV2, DefaultCredentialsProvider => DefaultCredentialsProviderV2, ProfileCredentialsProvider => ProfileCredentialsProviderV2}
 
+import scala.util.{Failure, Success, Try}
+
 class Configuration {
   val credentials = new AWSCredentialsProviderChain(
     new ProfileCredentialsProvider("mobile"),
@@ -27,17 +29,21 @@ class Configuration {
   val stage: String = Option(System.getenv("Stage")).getOrElse("CODE")
   val app: String = Option(System.getenv("App")).getOrElse("football-time-machine")
 
-  val conf: Config = {
-    val identity = AppIdentity.whoAmI(defaultAppName = app)
-    ConfigurationLoader.load(identity, credentialsv2) {
-      case AwsIdentity(app, stack, stage, _) =>
-        SSMConfigurationLocation(path = s"/$app/$stage/$stack")
-      case DevIdentity(app) =>
-        SSMConfigurationLocation(path = s"/$app/$stage/$stack", region = "eu-west-1")
-    }
+  val conf: Try[Config] =
+    for {
+      identity <- AppIdentity.whoAmI(defaultAppName = app, credentialsv2)
+      config <- Try(ConfigurationLoader.load(identity, credentialsv2) {
+        case AwsIdentity(app, stack, stage, _) =>
+          SSMConfigurationLocation(path = s"/$app/$stage/$stack", region = "eu-west-1")
+      })
+    } yield config
+
+  val config: Config = conf match {
+    case Success(config) => config
+    case Failure(err) => throw err
   }
 
-  val paApiKey: String = conf.getString("pa.api-key")
-  val paHost: String = conf.getString("pa.host")
+  val paApiKey: String = config.getString("pa.api-key")
+  val paHost: String = config.getString("pa.host")
 
 }
