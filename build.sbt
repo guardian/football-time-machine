@@ -1,4 +1,3 @@
-import com.gu.riffraff.artifact.RiffRaffArtifact.autoImport._
 import sbtassembly.MergeStrategy
 
 def commonSettings(module: String) = List(
@@ -18,7 +17,6 @@ def commonSettings(module: String) = List(
     case _ => MergeStrategy.first
   },
   Compile / packageDoc / publishArtifact := false,
-  packageDoc / publishArtifact := false,
   assemblyJarName := s"${name.value}.jar"
 )
 
@@ -56,12 +54,3 @@ lazy val download = project.settings(
 )
 
 lazy val root = project.in(file(".")).aggregate(archive, api)
-  .enablePlugins(RiffRaffArtifact)
-  .settings(
-    name := "football-time-machine",
-    riffRaffPackageType := file(".nothing"),
-    riffRaffUploadArtifactBucket := Option("riffraff-artifact"),
-    riffRaffUploadManifestBucket := Option("riffraff-builds"),
-    riffRaffArtifactResources += (api / assembly).value -> s"${(api / name).value}/${(api / assembly).value.getName}",
-    riffRaffArtifactResources += (archive / assembly).value -> s"${(archive / name).value}/${(archive / assembly).value.getName}"
-  )

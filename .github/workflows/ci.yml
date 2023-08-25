@@ -1,0 +1,48 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: corretto
+          java-version: 8
+          cache: sbt
+
+      - uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
+          aws-region: eu-west-1
+
+      - name: Build and Test
+        run: |
+          sbt compile test assembly
+        working-directory: ${{ github.workspace }}
+
+      - uses: guardian/actions-riff-raff@v2
+        with:
+          configPath: riff-raff.yaml
+          projectName: football-time-machine
+          buildNumberOffset: 90
+          contentDirectories: |
+            football-time-machine-archive:
+              - archive/target/scala-2.12/football-time-machine-archive.jar
+            football-time-machine-api:
+              - api/target/scala-2.12/football-time-machine-api.jar
