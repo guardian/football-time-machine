@@ -34,8 +34,8 @@ lazy val archive = project
         "com.amazonaws" % "aws-java-sdk-s3" % "1.12.311",
         "com.typesafe" % "config" % "1.3.1",
         "ch.qos.logback" % "logback-classic" % "1.2.11",
-        "io.netty" % "netty-codec-http" % "4.1.71.Final",
-        "io.netty" % "netty-common" % "4.1.77.Final"
+        "io.netty" % "netty-codec-http" % "4.1.100.Final",
+        "io.netty" % "netty-common" % "4.1.100.Final"
     )
   )
 
