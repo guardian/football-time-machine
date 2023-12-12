@@ -59,4 +59,3 @@ lazy val download = project.settings(
 )
 
 lazy val root = project.in(file(".")).aggregate(archive, api)
-
