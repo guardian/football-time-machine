@@ -15,8 +15,7 @@ import scala.io.Source
 class ApiGatewayResponse(
   @BeanProperty var statusCode: Int,
   @BeanProperty var headers: java.util.Map[String, String],
-  @BeanProperty var body: String
-)
+  @BeanProperty var body: String)
 
 object ApiGatewayResponse {
   import collection.JavaConverters._
@@ -60,8 +59,7 @@ object ApiLambda {
 
   val credentials = new AWSCredentialsProviderChain(
     new ProfileCredentialsProvider("mobile"),
-    DefaultAWSCredentialsProviderChain.getInstance()
-  )
+    DefaultAWSCredentialsProviderChain.getInstance())
 
   val s3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
     .withCredentials(credentials)
