@@ -26,7 +26,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: com.gu.footballtimemachine.ArchiveLambda::handler
-      Runtime: java8
+      Runtime: java21
       CodeUri:
         Bucket: !Ref DeployBucket
         Key: !Sub ${Stack}/${Stage}/${App}-archive/${App}-archive.jar
@@ -60,7 +60,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: com.gu.footballtimemachine.ApiLambda::getPaData
-      Runtime: java8
+      Runtime: java21
       CodeUri:
         Bucket: !Ref DeployBucket
         Key: !Sub ${Stack}/${Stage}/${App}-api/${App}-api.jar
@@ -96,7 +96,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: com.gu.footballtimemachine.ApiLambda::setDate
-      Runtime: java8
+      Runtime: java21
       CodeUri:
         Bucket: !Ref DeployBucket
         Key: !Sub ${Stack}/${Stage}/${App}-api/${App}-api.jar
@@ -129,7 +129,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: com.gu.footballtimemachine.ApiLambda::getTime
-      Runtime: java8
+      Runtime: java21
       CodeUri:
         Bucket: !Ref DeployBucket
         Key: !Sub ${Stack}/${Stage}/${App}-api/${App}-api.jar
