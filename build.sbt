@@ -5,11 +5,11 @@ def commonSettings(module: String) = List(
   organization := "com.gu",
   description:= "Stores pa feed on s3 to replay them later",
   version := "1.0",
-  scalaVersion := "2.12.16",
+  scalaVersion := "2.12.19",
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
-    "-target:jvm-1.8",
+    "-release:21",
     "-Ywarn-dead-code"
   ),
   assembly / assemblyMergeStrategy := {

@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: corretto
-          java-version: 8
+          java-version: 21
           cache: sbt
 
       - uses: aws-actions/configure-aws-credentials@v2
@@ -46,3 +46,5 @@ jobs:
               - archive/target/scala-2.12/football-time-machine-archive.jar
             football-time-machine-api:
               - api/target/scala-2.12/football-time-machine-api.jar
+            football-time-machine:
+              - cfn.yaml
