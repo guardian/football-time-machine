@@ -1,15 +1,15 @@
 package com.gu.footballtimemachine
 
-import com.amazonaws.auth.{AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain}
+import com.amazonaws.auth.{ AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain }
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.regions.Regions
-import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
-import com.gu.{AppIdentity, AwsIdentity, DevIdentity}
-import com.gu.conf.{ConfigurationLoader, SSMConfigurationLocation}
+import com.amazonaws.services.s3.{ AmazonS3, AmazonS3ClientBuilder }
+import com.gu.{ AppIdentity, AwsIdentity, DevIdentity }
+import com.gu.conf.{ ConfigurationLoader, SSMConfigurationLocation }
 import com.typesafe.config.Config
-import software.amazon.awssdk.auth.credentials.{AwsCredentialsProviderChain => AwsCredentialsProviderChainV2, DefaultCredentialsProvider => DefaultCredentialsProviderV2, ProfileCredentialsProvider => ProfileCredentialsProviderV2}
+import software.amazon.awssdk.auth.credentials.{ AwsCredentialsProviderChain => AwsCredentialsProviderChainV2, DefaultCredentialsProvider => DefaultCredentialsProviderV2, ProfileCredentialsProvider => ProfileCredentialsProviderV2 }
 
-import scala.util.{Failure, Success, Try}
+import scala.util.{ Failure, Success, Try }
 
 class Configuration {
   val credentials = new AWSCredentialsProviderChain(
