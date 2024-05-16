@@ -2,6 +2,13 @@ stacks: [mobile]
 regions: [eu-west-1]
 
 deployments:
+  football-time-machine:
+    type: cloud-formation
+    parameters:
+      templateStagePaths:
+        CODE: cfn.yaml
+      prependStackToCloudFormationStackName: false
+      appendStageToCloudFormationStackName: true
   football-time-machine-archive:
     type: aws-lambda
     parameters:
