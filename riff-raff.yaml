@@ -5,7 +5,8 @@ deployments:
   football-time-machine:
     type: cloud-formation
     parameters:
-      templatePath: cfn.yaml
+      templateStagePaths:
+        CODE: cfn.yaml
       prependStackToCloudFormationStackName: false
       appendStageToCloudFormationStackName: true
   football-time-machine-archive:
