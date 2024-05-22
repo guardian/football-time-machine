@@ -130,7 +130,7 @@ object ApiLambda {
     req.setPath("/competitions/matchDay/apiKey/20170809")
     req.setQueryStringParameters(Map("startDate" -> "2017-06-11T21:00:00Z", "speed" -> "3").asJava)
     val resp = setDate(req)
-//    val resp = getPaData(req)
+    //    val resp = getPaData(req)
 
     //val resp = getTime(req)
 
