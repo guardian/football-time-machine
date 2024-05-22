@@ -30,7 +30,7 @@ lazy val archive = project
       "Guardian GitHub Snapshots" at "https://guardian.github.com/maven/repo-snapshots"
     ),
       libraryDependencies ++= Seq(
-      "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
+      "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
       "com.gu" %% "pa-client" % "7.0.5",
       "com.gu" %% "simple-configuration-ssm" % "1.5.7",
       "software.amazon.awssdk" % "autoscaling" % awsSdk2Version,
@@ -48,7 +48,7 @@ lazy val api = project
   .settings(commonSettings("api"))
   .settings(
     libraryDependencies ++= Seq(
-      "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
+      "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
       "com.amazonaws" % "aws-java-sdk-s3" % "1.12.307",
       "com.typesafe" % "config" % "1.3.1"
     )
