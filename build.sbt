@@ -5,7 +5,7 @@ def commonSettings(module: String) = List(
   organization := "com.gu",
   description:= "Stores pa feed on s3 to replay them later",
   version := "1.0",
-  scalaVersion := "2.12.19",
+  scalaVersion := "2.13.14",
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
@@ -31,16 +31,16 @@ lazy val archive = project
     ),
       libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
-      "com.gu" %% "pa-client" % "7.0.5",
-      "com.gu" %% "simple-configuration-ssm" % "1.5.7",
+      "com.gu" %% "pa-client" % "7.0.9",
+      "com.gu" %% "simple-configuration-ssm" % "1.5.8",
       "software.amazon.awssdk" % "autoscaling" % awsSdk2Version,
       "software.amazon.awssdk" % "ec2" % awsSdk2Version,
       "software.amazon.awssdk" % "ssm" % awsSdk2Version,
       "com.amazonaws" % "aws-java-sdk-s3" % "1.12.311",
-      "com.typesafe" % "config" % "1.3.1",
-      "ch.qos.logback" % "logback-classic" % "1.2.13",
-      "io.netty" % "netty-codec-http" % "4.1.100.Final",
-      "io.netty" % "netty-common" % "4.1.100.Final"
+      "com.typesafe" % "config" % "1.3.4",
+      "ch.qos.logback" % "logback-classic" % "1.5.6",
+      "io.netty" % "netty-codec-http" % "4.1.109.Final",
+      "io.netty" % "netty-common" % "4.1.109.Final"
     )
   )
 
@@ -50,7 +50,7 @@ lazy val api = project
     libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
       "com.amazonaws" % "aws-java-sdk-s3" % "1.12.307",
-      "com.typesafe" % "config" % "1.3.1"
+      "com.typesafe" % "config" % "1.3.4"
     )
   )
 

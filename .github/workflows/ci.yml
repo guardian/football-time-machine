@@ -36,6 +36,11 @@ jobs:
           sbt compile test assembly
         working-directory: ${{ github.workspace }}
 
+      - name: Copy jar to root
+        run: |
+          cp archive/target/scala-*/football-time-machine-archive.jar .
+          cp api/target/scala-*/football-time-machine-api.jar .
+
       - uses: guardian/actions-riff-raff@v2
         with:
           configPath: riff-raff.yaml
@@ -43,8 +48,8 @@ jobs:
           buildNumberOffset: 90
           contentDirectories: |
             football-time-machine-archive:
-              - archive/target/scala-2.12/football-time-machine-archive.jar
+              - football-time-machine-archive.jar
             football-time-machine-api:
-              - api/target/scala-2.12/football-time-machine-api.jar
+              - football-time-machine-api.jar
             football-time-machine:
               - cfn.yaml
