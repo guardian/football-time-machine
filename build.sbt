@@ -20,7 +20,7 @@ def commonSettings(module: String) = List(
   assemblyJarName := s"${name.value}.jar"
 )
 
-val awsSdk2Version = "2.21.21"
+val awsSdk2Version = "2.21.46"
 
 lazy val archive = project
   .settings(commonSettings("archive"))
@@ -30,13 +30,13 @@ lazy val archive = project
       "Guardian GitHub Snapshots" at "https://guardian.github.com/maven/repo-snapshots"
     ),
       libraryDependencies ++= Seq(
-      "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
+      "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
       "com.gu" %% "pa-client" % "7.0.9",
       "com.gu" %% "simple-configuration-ssm" % "1.5.8",
       "software.amazon.awssdk" % "autoscaling" % awsSdk2Version,
       "software.amazon.awssdk" % "ec2" % awsSdk2Version,
       "software.amazon.awssdk" % "ssm" % awsSdk2Version,
-      "com.amazonaws" % "aws-java-sdk-s3" % "1.12.311",
+      "com.amazonaws" % "aws-java-sdk-s3" % "1.12.727",
       "com.typesafe" % "config" % "1.3.4",
       "ch.qos.logback" % "logback-classic" % "1.5.6",
       "io.netty" % "netty-codec-http" % "4.1.109.Final",
@@ -48,7 +48,7 @@ lazy val api = project
   .settings(commonSettings("api"))
   .settings(
     libraryDependencies ++= Seq(
-      "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
+      "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
       "com.amazonaws" % "aws-java-sdk-s3" % "1.12.307",
       "com.typesafe" % "config" % "1.3.4"
     )
