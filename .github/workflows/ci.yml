@@ -43,8 +43,8 @@ jobs:
           buildNumberOffset: 90
           contentDirectories: |
             football-time-machine-archive:
-              - archive/target/scala-2.12/football-time-machine-archive.jar
+              - archive/target/scala-*/football-time-machine-archive.jar
             football-time-machine-api:
-              - api/target/scala-2.12/football-time-machine-api.jar
+              - api/target/scala-*/football-time-machine-api.jar
             football-time-machine:
               - cfn.yaml
