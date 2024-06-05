@@ -32,7 +32,7 @@ lazy val archive = project
       libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
       "com.gu" %% "pa-client" % "7.0.9",
-      "com.gu" %% "simple-configuration-ssm" % "1.5.8",
+      "com.gu" %% "simple-configuration-ssm" % "1.7.0",
       "software.amazon.awssdk" % "autoscaling" % awsSdk2Version,
       "software.amazon.awssdk" % "ec2" % awsSdk2Version,
       "software.amazon.awssdk" % "ssm" % awsSdk2Version,
