@@ -8,6 +8,7 @@ import com.amazonaws.services.s3.model.{ ObjectMetadata, PutObjectRequest }
 import com.amazonaws.util.StringUtils
 import pa.MatchDay
 
+import java.nio.charset.StandardCharsets
 import scala.concurrent.{ Await, Future }
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationDouble
@@ -74,6 +75,8 @@ object TestIt {
   def main(args: Array[String]): Unit = {
     println(ArchiveLambda.process()(new LambdaLogger {
       override def log(string: String): Unit = println(string)
+
+      override def log(message: Array[Byte]): Unit = println(new String(message, StandardCharsets.UTF_8))
     }))
   }
 }
