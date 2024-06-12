@@ -32,15 +32,15 @@ lazy val archive = project
       libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
       "com.gu" %% "pa-client" % "7.0.9",
-      "com.gu" %% "simple-configuration-ssm" % "1.5.8",
+      "com.gu" %% "simple-configuration-ssm" % "1.7.0",
       "software.amazon.awssdk" % "autoscaling" % awsSdk2Version,
       "software.amazon.awssdk" % "ec2" % awsSdk2Version,
       "software.amazon.awssdk" % "ssm" % awsSdk2Version,
       "com.amazonaws" % "aws-java-sdk-s3" % "1.12.736",
-      "com.typesafe" % "config" % "1.3.4",
+      "com.typesafe" % "config" % "1.4.3",
       "ch.qos.logback" % "logback-classic" % "1.5.6",
-      "io.netty" % "netty-codec-http" % "4.1.109.Final",
-      "io.netty" % "netty-common" % "4.1.109.Final"
+      "io.netty" % "netty-codec-http" % "4.1.110.Final",
+      "io.netty" % "netty-common" % "4.1.110.Final"
     )
   )
 
@@ -50,7 +50,7 @@ lazy val api = project
     libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
       "com.amazonaws" % "aws-java-sdk-s3" % "1.12.307",
-      "com.typesafe" % "config" % "1.3.4"
+      "com.typesafe" % "config" % "1.4.3"
     )
   )
 
