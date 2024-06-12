@@ -20,7 +20,7 @@ def commonSettings(module: String) = List(
   assemblyJarName := s"${name.value}.jar"
 )
 
-val awsSdk2Version = "2.21.46"
+val awsSdk2Version = "2.25.66"
 
 lazy val archive = project
   .settings(commonSettings("archive"))
@@ -36,7 +36,7 @@ lazy val archive = project
       "software.amazon.awssdk" % "autoscaling" % awsSdk2Version,
       "software.amazon.awssdk" % "ec2" % awsSdk2Version,
       "software.amazon.awssdk" % "ssm" % awsSdk2Version,
-      "com.amazonaws" % "aws-java-sdk-s3" % "1.12.727",
+      "com.amazonaws" % "aws-java-sdk-s3" % "1.12.736",
       "com.typesafe" % "config" % "1.3.4",
       "ch.qos.logback" % "logback-classic" % "1.5.6",
       "io.netty" % "netty-codec-http" % "4.1.109.Final",
