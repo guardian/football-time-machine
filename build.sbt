@@ -20,7 +20,7 @@ def commonSettings(module: String) = List(
   assemblyJarName := s"${name.value}.jar"
 )
 
-val awsSdk2Version = "2.25.66"
+val awsSdk2Version = "2.25.70"
 
 lazy val archive = project
   .settings(commonSettings("archive"))
