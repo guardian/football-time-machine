@@ -44,7 +44,7 @@ lazy val archive = project
     )
   )
 
-private val jacksonOverride =  "com.fasterxml.jackson.core" % "jackson-core" % "2.15.0-rc1"
+val jacksonOverride =  "com.fasterxml.jackson.core" % "jackson-core" % "2.15.0-rc1"
 
 lazy val api = project
   .settings(commonSettings("api"))
