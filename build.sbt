@@ -44,6 +44,8 @@ lazy val archive = project
     )
   )
 
+private val jacksonOverride =  "com.fasterxml.jackson.core" % "jackson-core" % "2.15.0-rc1"
+
 lazy val api = project
   .settings(commonSettings("api"))
   .settings(
@@ -55,7 +57,10 @@ lazy val api = project
   )
 
 lazy val download = project.settings(
-  libraryDependencies += "com.amazonaws" % "aws-java-sdk-s3" % "1.12.307"
+  libraryDependencies ++= Seq(
+    "com.amazonaws" % "aws-java-sdk-s3" % "1.12.307", 
+    jacksonOverride
+  )
 )
 
 lazy val root = project.in(file(".")).aggregate(archive, api)
