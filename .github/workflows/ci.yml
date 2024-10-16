@@ -49,12 +49,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: corretto
-          java-version: 21
-          cache: sbt
+      - name: Setup JDK and sbt
+        uses: guardian/setup-scala@v1
 
       - uses: aws-actions/configure-aws-credentials@v2
         with:
