@@ -49,8 +49,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup JDK
-        uses: actions/setup-java@v3
+      - name: Setup JDK and sbt
+        uses: guardian/setup-scala
         with:
           distribution: corretto
           java-version: 21
