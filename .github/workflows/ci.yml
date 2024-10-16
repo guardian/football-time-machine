@@ -51,10 +51,6 @@ jobs:
 
       - name: Setup JDK and sbt
         uses: guardian/setup-scala@v1
-        with:
-          distribution: corretto
-          java-version: 21
-          cache: sbt
 
       - uses: aws-actions/configure-aws-credentials@v2
         with:
