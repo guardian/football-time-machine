@@ -22,7 +22,7 @@ def commonSettings(module: String) = List(
 
 val awsSdk2Version = "2.28.21"
 
-val jacksonOverride =  "com.fasterxml.jackson.core" % "jackson-core" % "2.18.0"
+val jacksonOverride =  "com.fasterxml.jackson.core" % "jackson-core" % "2.18.1"
 
 lazy val archive = project
   .settings(commonSettings("archive"))
@@ -40,7 +40,7 @@ lazy val archive = project
       "software.amazon.awssdk" % "ssm" % awsSdk2Version,
       "com.amazonaws" % "aws-java-sdk-s3" % "1.12.777",
       "com.typesafe" % "config" % "1.4.3",
-      "ch.qos.logback" % "logback-classic" % "1.5.11",
+      "ch.qos.logback" % "logback-classic" % "1.5.12",
       "io.netty" % "netty-codec-http" % "4.1.114.Final",
       "io.netty" % "netty-common" % "4.1.114.Final",
       jacksonOverride
