@@ -9,36 +9,6 @@ on:
       - main
 
 jobs:
-  scala_steward:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    if: github.actor == 'gu-scala-steward-public-repos[bot]'
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Check if PR has 'minor' or 'patch' label
-        id: check_labels
-        run: |
-          PR_URL="${{ github.event.pull_request.html_url }}"
-          PR_NUMBER=$(echo $PR_URL | awk -F/ '{print $NF}')
-          LABELS=$(gh pr view $PR_NUMBER --json labels --jq '.labels[].name')
-          if [[ "$LABELS" != *"minor"* && "$LABELS" != *"patch"* ]]; then
-            echo "PR does not have 'minor' or 'patch' label. Skipping approval and merge."
-            exit 1
-          fi
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Approve a PR
-        if: steps.check_labels.outputs.result == 'success'
-        run: gh pr review --approve "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   build:
     runs-on: ubuntu-latest
     permissions:
