@@ -40,9 +40,9 @@ lazy val archive = project
       "software.amazon.awssdk" % "ssm" % awsSdk2Version,
       "com.amazonaws" % "aws-java-sdk-s3" % "1.12.779",
       "com.typesafe" % "config" % "1.4.3",
-      "ch.qos.logback" % "logback-classic" % "1.5.12",
-      "io.netty" % "netty-codec-http" % "4.1.115.Final",
-      "io.netty" % "netty-common" % "4.1.115.Final",
+      "ch.qos.logback" % "logback-classic" % "1.5.15",
+      "io.netty" % "netty-codec-http" % "4.1.116.Final",
+      "io.netty" % "netty-common" % "4.1.116.Final",
       jacksonOverride
     )
   )
