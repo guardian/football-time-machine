@@ -5,7 +5,7 @@ def commonSettings(module: String) = List(
   organization := "com.gu",
   description:= "Stores pa feed on s3 to replay them later",
   version := "1.0",
-  scalaVersion := "2.13.15",
+  scalaVersion := "2.13.16",
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
