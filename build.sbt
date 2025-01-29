@@ -5,7 +5,7 @@ def commonSettings(module: String) = List(
   organization := "com.gu",
   description:= "Stores pa feed on s3 to replay them later",
   version := "1.0",
-  scalaVersion := "2.13.15",
+  scalaVersion := "2.13.16",
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
@@ -41,8 +41,8 @@ lazy val archive = project
       "com.amazonaws" % "aws-java-sdk-s3" % "1.12.780",
       "com.typesafe" % "config" % "1.4.3",
       "ch.qos.logback" % "logback-classic" % "1.5.16",
-      "io.netty" % "netty-codec-http" % "4.1.116.Final",
-      "io.netty" % "netty-common" % "4.1.116.Final",
+      "io.netty" % "netty-codec-http" % "4.1.117.Final",
+      "io.netty" % "netty-common" % "4.1.117.Final",
       jacksonOverride
     )
   )
