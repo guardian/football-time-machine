@@ -20,7 +20,7 @@ def commonSettings(module: String) = List(
   assemblyJarName := s"${name.value}.jar"
 )
 
-val awsSdk2Version = "2.29.36"
+val awsSdk2Version = "2.29.52"
 
 val jacksonOverride =  "com.fasterxml.jackson.core" % "jackson-core" % "2.18.2"
 
