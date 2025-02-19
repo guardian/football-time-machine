@@ -22,7 +22,8 @@ def commonSettings(module: String) = List(
 
 val awsSdk2Version = "2.29.52"
 
-val jacksonOverride =  "com.fasterxml.jackson.core" % "jackson-core" % "2.18.2"
+val jacksonCore =  "com.fasterxml.jackson.core" % "jackson-core" % "2.18.2"
+val jacksonDatabind = "com.fasterxml.jackson.core" % "jackson-databind" % "2.18.2"
 
 lazy val archive = project
   .settings(commonSettings("archive"))
@@ -43,7 +44,8 @@ lazy val archive = project
       "ch.qos.logback" % "logback-classic" % "1.5.16",
       "io.netty" % "netty-codec-http" % "4.1.117.Final",
       "io.netty" % "netty-common" % "4.1.118.Final",
-      jacksonOverride
+      jacksonCore,
+      jacksonDatabind
     )
   )
 
@@ -54,14 +56,16 @@ lazy val api = project
       "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
       "com.amazonaws" % "aws-java-sdk-s3" % "1.12.307",
       "com.typesafe" % "config" % "1.4.3",
-      jacksonOverride
+      jacksonCore,
+      jacksonDatabind
     )
   )
 
 lazy val download = project.settings(
   libraryDependencies ++= Seq(
-    "com.amazonaws" % "aws-java-sdk-s3" % "1.12.307", 
-    jacksonOverride
+    "com.amazonaws" % "aws-java-sdk-s3" % "1.12.307",
+    jacksonCore,
+    jacksonDatabind
   )
 )
 
