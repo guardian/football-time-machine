@@ -43,7 +43,7 @@ lazy val archive = project
       "com.typesafe" % "config" % "1.4.3",
       "ch.qos.logback" % "logback-classic" % "1.5.16",
       "io.netty" % "netty-codec-http" % "4.1.118.Final",
-      "io.netty" % "netty-common" % "4.1.117.Final",
+      "io.netty" % "netty-common" % "4.1.118.Final",
       jacksonCore,
       jacksonDatabind
     )
