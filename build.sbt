@@ -41,7 +41,7 @@ lazy val archive = project
       "software.amazon.awssdk" % "ssm" % awsSdk2Version,
       "com.amazonaws" % "aws-java-sdk-s3" % "1.12.781",
       "com.typesafe" % "config" % "1.4.3",
-      "ch.qos.logback" % "logback-classic" % "1.5.16",
+      "ch.qos.logback" % "logback-classic" % "1.5.17",
       "io.netty" % "netty-codec-http" % "4.1.118.Final",
       "io.netty" % "netty-common" % "4.1.118.Final",
       jacksonCore,
