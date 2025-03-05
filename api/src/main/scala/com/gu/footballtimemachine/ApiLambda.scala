@@ -1,14 +1,16 @@
 package com.gu.footballtimemachine
 
+import software.amazon.awssdk.services.s3.S3Client
+
 import java.time.format.DateTimeFormatter
 import java.time.{ Instant, ZoneId, ZonedDateTime }
+import software.amazon.awssdk.auth.credentials.{ AwsCredentialsProviderChain, InstanceProfileCredentialsProvider, ProfileCredentialsProvider }
+import software.amazon.awssdk.core.sync.RequestBody
+import software.amazon.awssdk.regions.Region
+import software.amazon.awssdk.services.s3.S3ClientBuilder
+import software.amazon.awssdk.services.s3.model.{ GetObjectRequest, ListObjectVersionsRequest, PutObjectRequest }
 
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.auth.{ AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain }
-import com.amazonaws.regions.Regions
-import com.amazonaws.services.s3.model.GetObjectRequest
-import com.amazonaws.services.s3.{ AmazonS3, AmazonS3ClientBuilder }
-
+import java.nio.charset.StandardCharsets
 import scala.beans.BeanProperty
 import scala.io.Source
 
@@ -57,13 +59,13 @@ class ApiGatewayRequestContext {
 
 object ApiLambda {
 
-  val credentials = new AWSCredentialsProviderChain(
-    new ProfileCredentialsProvider("mobile"),
-    DefaultAWSCredentialsProviderChain.getInstance())
+  val credentials = AwsCredentialsProviderChain.builder().credentialsProviders(
+    ProfileCredentialsProvider.create("mobile"),
+    InstanceProfileCredentialsProvider.create()).build()
 
-  val s3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
-    .withCredentials(credentials)
-    .withRegion(Regions.EU_WEST_1)
+  val s3Client = S3Client.builder()
+    .credentialsProvider(credentials)
+    .region(Region.EU_WEST_1)
     .build()
 
   val bucket = "pa-football-time-machine"
@@ -78,44 +80,54 @@ object ApiLambda {
 
     val currentTime = computeTime
 
-    val versions = s3Client.listVersions(bucket, s3Path).getVersionSummaries.asScala.toList.sortBy(_.getLastModified)
-    val version = versions.find(_.getLastModified.getTime > currentTime).getOrElse(versions.last).getVersionId
+    val versions = s3Client.listObjectVersions(ListObjectVersionsRequest.builder().bucket(bucket).prefix(s3Path).build()).versions().asScala.toList.sortBy(_.lastModified)
 
-    val gor = new GetObjectRequest(bucket, s3Path)
-    gor.setVersionId(version)
+    println(currentTime)
+
+    println(versions.find(v => v.lastModified().toEpochMilli() > currentTime).map(_.lastModified().toEpochMilli))
+
+    val version = versions.find(v => v.lastModified().toEpochMilli() > currentTime).getOrElse(versions.last).versionId
+
+    val gor = GetObjectRequest.builder.bucket(bucket).key(s3Path).versionId(version).build()
 
     println(s"requesting version $version")
 
     val s3Object = s3Client.getObject(gor)
 
-    println(s"Got version ${s3Object.getObjectMetadata.getVersionId} dated ${s3Object.getObjectMetadata.getLastModified}")
+    println(s"Got version ${s3Object.response().versionId()} dated ${s3Object.response().lastModified()}")
 
-    val content = Source.fromInputStream(s3Object.getObjectContent).mkString
+    val content = Source.fromInputStream(s3Object).mkString
     ApiGatewayResponse(200, Map("Content-Type" -> "application/xml"), content)
   }
 
   def setDate(request: ApiGatewayRequest): ApiGatewayResponse = {
     val startDate = ZonedDateTime.parse(request.queryStringParameters.get("startDate")).toInstant.toEpochMilli
     val offset = System.currentTimeMillis() - startDate
-    s3Client.putObject(bucket, "startDate", startDate.toString)
-    s3Client.putObject(bucket, "offset", offset.toString)
+    s3Client.putObject(
+      PutObjectRequest.builder().bucket(bucket).key("startDate").build(),
+      RequestBody.fromString(startDate.toString, StandardCharsets.UTF_8))
+    s3Client.putObject(
+      PutObjectRequest.builder().bucket(bucket).key("offset").build(),
+      RequestBody.fromString(offset.toString, StandardCharsets.UTF_8))
 
     val speed = request.queryStringParamMap.getOrElse("speed", 5)
-    s3Client.putObject(bucket, "speed", speed.toString)
+    s3Client.putObject(PutObjectRequest.builder().bucket(bucket).key("speed").build(), RequestBody.fromString(speed.toString, StandardCharsets.UTF_8))
 
     val date = ZonedDateTime.ofInstant(Instant.ofEpochMilli(computeTime), ZoneId.of("Europe/London"))
     ApiGatewayResponse(200, Map.empty, body = s"""{"currentDate":"${date.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)}"}""")
   }
 
   def computeTime: Long = {
-    val offsetObject = s3Client.getObject(bucket, "offset")
-    val offset = Source.fromInputStream(offsetObject.getObjectContent).mkString.toLong
+    val offsetObject = s3Client.getObject(
+      GetObjectRequest.builder().bucket(bucket).key("offset").build())
 
-    val startDateObject = s3Client.getObject(bucket, "startDate")
-    val startDate = Source.fromInputStream(startDateObject.getObjectContent).mkString.toLong
+    val offset = Source.fromInputStream(offsetObject).mkString.toLong
 
-    val speedObject = s3Client.getObject(bucket, "speed")
-    val speed = Source.fromInputStream(speedObject.getObjectContent).mkString.toInt
+    val startDateObject = s3Client.getObject(GetObjectRequest.builder().bucket(bucket).key("startDate").build())
+    val startDate = Source.fromInputStream(startDateObject).mkString.toLong
+
+    val speedObject = s3Client.getObject(GetObjectRequest.builder().bucket(bucket).key("speed").build())
+    val speed = Source.fromInputStream(speedObject).mkString.toInt
     (System.currentTimeMillis() - startDate - offset) * speed + startDate
   }
 
@@ -127,12 +139,12 @@ object ApiLambda {
   def main(args: Array[String]): Unit = {
     val req = new ApiGatewayRequest()
     req.setHttpMethod("GET")
-    req.setPath("/competitions/matchDay/apiKey/20170809")
+    req.setPath("/competitions/matchDay/apiKey/20241204")
     req.setQueryStringParameters(Map("startDate" -> "2017-06-11T21:00:00Z", "speed" -> "3").asJava)
-    val resp = setDate(req)
-    //    val resp = getPaData(req)
+//    val resp = setDate(req)
+//      val resp = getPaData(req)
 
-    //val resp = getTime(req)
+    val resp = getTime(req)
 
     println(resp.body)
   }

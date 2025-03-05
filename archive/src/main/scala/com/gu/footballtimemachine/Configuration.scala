@@ -1,28 +1,23 @@
 package com.gu.footballtimemachine
 
-import com.amazonaws.auth.{ AWSCredentialsProviderChain, DefaultAWSCredentialsProviderChain }
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.regions.Regions
-import com.amazonaws.services.s3.{ AmazonS3, AmazonS3ClientBuilder }
-import com.gu.{ AppIdentity, AwsIdentity, DevIdentity }
-import com.gu.conf.{ ConfigurationLoader, SSMConfigurationLocation }
+import com.gu.{AppIdentity, AwsIdentity}
+import com.gu.conf.{ConfigurationLoader, SSMConfigurationLocation}
 import com.typesafe.config.Config
-import software.amazon.awssdk.auth.credentials.{ AwsCredentialsProviderChain => AwsCredentialsProviderChainV2, DefaultCredentialsProvider => DefaultCredentialsProviderV2, ProfileCredentialsProvider => ProfileCredentialsProviderV2 }
+import software.amazon.awssdk.auth.credentials.{ProfileCredentialsProvider, AwsCredentialsProviderChain => AwsCredentialsProviderChainV2, DefaultCredentialsProvider => DefaultCredentialsProviderV2, ProfileCredentialsProvider => ProfileCredentialsProviderV2}
+import software.amazon.awssdk.regions.Region
+import software.amazon.awssdk.services.s3.S3Client
 
-import scala.util.{ Failure, Success, Try }
+import scala.util.{Failure, Success, Try}
 
 class Configuration {
-  val credentials = new AWSCredentialsProviderChain(
-    new ProfileCredentialsProvider("mobile"),
-    DefaultAWSCredentialsProviderChain.getInstance())
 
   val credentialsv2: AwsCredentialsProviderChainV2 = AwsCredentialsProviderChainV2.of(
     ProfileCredentialsProviderV2.builder.profileName("mobile").build,
     DefaultCredentialsProviderV2.create)
 
-  val s3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
-    .withCredentials(credentials)
-    .withRegion(Regions.EU_WEST_1)
+  val s3Client = S3Client.builder()
+    .credentialsProvider(credentialsv2)
+    .region(Region.EU_WEST_1)
     .build()
 
   val stack: String = Option(System.getenv("Stack")).getOrElse("mobile")

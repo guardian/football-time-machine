@@ -54,7 +54,7 @@ lazy val api = project
   .settings(
     libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
-      "com.amazonaws" % "aws-java-sdk-s3" % "1.12.307",
+      "software.amazon.awssdk" % "s3" % awsSdk2Version,
       "com.typesafe" % "config" % "1.4.3",
       jacksonCore,
       jacksonDatabind
@@ -63,7 +63,7 @@ lazy val api = project
 
 lazy val download = project.settings(
   libraryDependencies ++= Seq(
-    "com.amazonaws" % "aws-java-sdk-s3" % "1.12.307",
+    "software.amazon.awssdk" % "s3" % awsSdk2Version,
     jacksonCore,
     jacksonDatabind
   )
