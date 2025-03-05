@@ -82,10 +82,6 @@ object ApiLambda {
 
     val versions = s3Client.listObjectVersions(ListObjectVersionsRequest.builder().bucket(bucket).prefix(s3Path).build()).versions().asScala.toList.sortBy(_.lastModified)
 
-    println(currentTime)
-
-    println(versions.find(v => v.lastModified().toEpochMilli() > currentTime).map(_.lastModified().toEpochMilli))
-
     val version = versions.find(v => v.lastModified().toEpochMilli() > currentTime).getOrElse(versions.last).versionId
 
     val gor = GetObjectRequest.builder.bucket(bucket).key(s3Path).versionId(version).build()
