@@ -1,17 +1,19 @@
 package com.gu.footballtimemachine
 
-import java.io.{ ByteArrayInputStream, InputStream }
-import java.time.{ LocalDate, ZonedDateTime }
+import java.io.{ByteArrayInputStream, InputStream}
+import java.time.{LocalDate, ZonedDateTime}
 import java.time.format.DateTimeFormatter
-import com.amazonaws.services.lambda.runtime.{ Context, LambdaLogger }
-import com.amazonaws.services.s3.model.{ ObjectMetadata, PutObjectRequest }
-import com.amazonaws.util.StringUtils
+import com.amazonaws.services.lambda.runtime.{Context, LambdaLogger}
+import software.amazon.awssdk.services.s3.model.PutObjectRequest
 import pa.MatchDay
+import software.amazon.awssdk.core.sync.RequestBody
+import software.amazon.awssdk.utils.StringUtils
 
-import java.nio.charset.StandardCharsets
-import scala.concurrent.{ Await, Future }
+import java.nio.charset.{Charset, StandardCharsets}
+import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationDouble
+import scala.jdk.CollectionConverters.MapHasAsJava
 
 class LambdaInput
 
@@ -56,15 +58,11 @@ object ArchiveLambda {
   }
 
   def putFile(key: String, content: String)(implicit logger: LambdaLogger): Unit = {
-    val contentBytes = content.getBytes(StringUtils.UTF8)
 
-    val is: InputStream = new ByteArrayInputStream(contentBytes)
-    val metadata = new ObjectMetadata()
-    metadata.setContentType("application/xml")
-    metadata.setContentLength(contentBytes.length)
+    val metadata = Map("Content-Type" -> "application/xml")
 
     logger.log(s"uploading to $key")
-    configuration.s3Client.putObject(new PutObjectRequest(bucket, key, is, metadata))
+    configuration.s3Client.putObject(PutObjectRequest.builder.bucket(bucket).key(key).metadata(metadata.asJava).build(), RequestBody.fromString(content))
   }
 
   private def inProgress(m: MatchDay): Boolean =

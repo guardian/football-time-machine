@@ -39,7 +39,7 @@ lazy val archive = project
       "software.amazon.awssdk" % "autoscaling" % awsSdk2Version,
       "software.amazon.awssdk" % "ec2" % awsSdk2Version,
       "software.amazon.awssdk" % "ssm" % awsSdk2Version,
-      "com.amazonaws" % "aws-java-sdk-s3" % "1.12.781",
+      "software.amazon.awssdk" % "s3" % awsSdk2Version,
       "com.typesafe" % "config" % "1.4.3",
       "ch.qos.logback" % "logback-classic" % "1.5.17",
       "io.netty" % "netty-codec-http" % "4.1.119.Final",
@@ -54,7 +54,7 @@ lazy val api = project
   .settings(
     libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
-      "com.amazonaws" % "aws-java-sdk-s3" % "1.12.307",
+      "software.amazon.awssdk" % "s3" % awsSdk2Version,
       "com.typesafe" % "config" % "1.4.3",
       jacksonCore,
       jacksonDatabind
@@ -63,7 +63,7 @@ lazy val api = project
 
 lazy val download = project.settings(
   libraryDependencies ++= Seq(
-    "com.amazonaws" % "aws-java-sdk-s3" % "1.12.307",
+    "software.amazon.awssdk" % "s3" % awsSdk2Version,
     jacksonCore,
     jacksonDatabind
   )
