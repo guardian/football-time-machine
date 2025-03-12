@@ -22,8 +22,8 @@ def commonSettings(module: String) = List(
 
 val awsSdk2Version = "2.30.36"
 
-val jacksonCore =  "com.fasterxml.jackson.core" % "jackson-core" % "2.18.2"
-val jacksonDatabind = "com.fasterxml.jackson.core" % "jackson-databind" % "2.18.2"
+val jacksonCore =  "com.fasterxml.jackson.core" % "jackson-core" % "2.18.3"
+val jacksonDatabind = "com.fasterxml.jackson.core" % "jackson-databind" % "2.18.3"
 
 lazy val archive = project
   .settings(commonSettings("archive"))
