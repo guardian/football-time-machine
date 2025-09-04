@@ -20,27 +20,10 @@ def commonSettings(module: String) = List(
   assemblyJarName := s"${name.value}.jar"
 )
 
-val awsSdk2Version = "2.32.28"
+val awsSdk2Version = "2.33.2"
 
 val jacksonCore =  "com.fasterxml.jackson.core" % "jackson-core" % "2.19.0"
 val jacksonDatabind = "com.fasterxml.jackson.core" % "jackson-databind" % "2.19.0"
-
-//Make sure that we use the same (non vulnerable netty version) everywhere - sbt dependencyTree | grep io.netty should return the same everywhere
-val nettyVersion = "4.2.4.Final"
-ThisBuild / dependencyOverrides ++= Seq(
-  "io.netty" % "netty-common"                       % nettyVersion,
-  "io.netty" % "netty-buffer"                       % nettyVersion,
-  "io.netty" % "netty-codec"                        % nettyVersion,
-  "io.netty" % "netty-codec-base"                   % nettyVersion,
-  "io.netty" % "netty-codec-compression"            % nettyVersion,
-  "io.netty" % "netty-codec-http"                   % nettyVersion,
-  "io.netty" % "netty-codec-http2"                  % nettyVersion,
-  "io.netty" % "netty-handler"                      % nettyVersion,
-  "io.netty" % "netty-resolver"                     % nettyVersion,
-  "io.netty" % "netty-transport"                    % nettyVersion,
-  "io.netty" % "netty-transport-native-unix-common" % nettyVersion,
-  "io.netty" % "netty-transport-classes-epoll"      % nettyVersion
-)
 
 lazy val archive = project
   .settings(commonSettings("archive"))
