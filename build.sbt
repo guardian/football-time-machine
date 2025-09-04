@@ -22,6 +22,8 @@ def commonSettings(module: String) = List(
 
 val awsSdk2Version = "2.32.28"
 
+val nettyVersion = "4.2.4.Final"
+
 val jacksonCore =  "com.fasterxml.jackson.core" % "jackson-core" % "2.19.0"
 val jacksonDatabind = "com.fasterxml.jackson.core" % "jackson-databind" % "2.19.0"
 
@@ -42,8 +44,8 @@ lazy val archive = project
       "software.amazon.awssdk" % "s3" % awsSdk2Version,
       "com.typesafe" % "config" % "1.4.3",
       "ch.qos.logback" % "logback-classic" % "1.5.18",
-      "io.netty" % "netty-codec-http" % "4.2.0.Final",
-      "io.netty" % "netty-common" % "4.2.0.Final",
+      "io.netty" % "netty-codec-http" % nettyVersion,
+      "io.netty" % "netty-common" % nettyVersion,
       jacksonCore,
       jacksonDatabind
     )
