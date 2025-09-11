@@ -22,8 +22,8 @@ def commonSettings(module: String) = List(
 
 val awsSdk2Version = "2.32.32"
 
-val jacksonCore =  "com.fasterxml.jackson.core" % "jackson-core" % "2.19.0"
-val jacksonDatabind = "com.fasterxml.jackson.core" % "jackson-databind" % "2.19.0"
+val jacksonCore =  "com.fasterxml.jackson.core" % "jackson-core" % "2.19.2"
+val jacksonDatabind = "com.fasterxml.jackson.core" % "jackson-databind" % "2.19.2"
 
 lazy val archive = project
   .settings(commonSettings("archive"))
@@ -40,7 +40,7 @@ lazy val archive = project
       "software.amazon.awssdk" % "ec2" % awsSdk2Version,
       "software.amazon.awssdk" % "ssm" % awsSdk2Version,
       "software.amazon.awssdk" % "s3" % awsSdk2Version,
-      "com.typesafe" % "config" % "1.4.3",
+      "com.typesafe" % "config" % "1.4.5",
       "ch.qos.logback" % "logback-classic" % "1.5.18",
       jacksonCore,
       jacksonDatabind
@@ -53,7 +53,7 @@ lazy val api = project
     libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.3.0",
       "software.amazon.awssdk" % "s3" % awsSdk2Version,
-      "com.typesafe" % "config" % "1.4.3",
+      "com.typesafe" % "config" % "1.4.5",
       jacksonCore,
       jacksonDatabind
     )
