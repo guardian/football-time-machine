@@ -41,7 +41,7 @@ lazy val archive = project
       "software.amazon.awssdk" % "ssm" % awsSdk2Version,
       "software.amazon.awssdk" % "s3" % awsSdk2Version,
       "com.typesafe" % "config" % "1.4.3",
-      "ch.qos.logback" % "logback-classic" % "1.5.18",
+      "ch.qos.logback" % "logback-classic" % "1.5.25",
       jacksonCore,
       jacksonDatabind
     )
