@@ -4,10 +4,9 @@ import software.amazon.awssdk.services.s3.S3Client
 
 import java.time.format.DateTimeFormatter
 import java.time.{ Instant, ZoneId, ZonedDateTime }
-import software.amazon.awssdk.auth.credentials.{ AwsCredentialsProviderChain, InstanceProfileCredentialsProvider, ProfileCredentialsProvider }
+import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider
 import software.amazon.awssdk.core.sync.RequestBody
 import software.amazon.awssdk.regions.Region
-import software.amazon.awssdk.services.s3.S3ClientBuilder
 import software.amazon.awssdk.services.s3.model.{ GetObjectRequest, ListObjectVersionsRequest, PutObjectRequest }
 
 import java.nio.charset.StandardCharsets
@@ -59,9 +58,10 @@ class ApiGatewayRequestContext {
 
 object ApiLambda {
 
-  val credentials = AwsCredentialsProviderChain.builder().credentialsProviders(
-    ProfileCredentialsProvider.create("mobile"),
-    InstanceProfileCredentialsProvider.create()).build()
+  val credentials = DefaultCredentialsProvider
+    .builder
+    .profileName("mobile")
+    .build
 
   val s3Client = S3Client.builder()
     .credentialsProvider(credentials)
