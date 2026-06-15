@@ -20,6 +20,7 @@ Run main
 
 ### Testing in CODE
 
+The time machine is normally off in the CODE environment by default and the rule is only to be enabled from AWS for testing and then disabled once testing is done (The APIs below still respond when it is disabled). Get in touch with a recent contributor to the repository if you are unsure about how to enable the rule.
 
 #### Football time machine api
 There are 3 endpoints which are handled by API Gateway. 
