@@ -40,8 +40,8 @@ lazy val archive = project
       "software.amazon.awssdk" % "ec2" % awsSdk2Version,
       "software.amazon.awssdk" % "ssm" % awsSdk2Version,
       "software.amazon.awssdk" % "s3" % awsSdk2Version,
-      "com.typesafe" % "config" % "1.4.3",
-      "ch.qos.logback" % "logback-classic" % "1.5.18",
+      "com.typesafe" % "config" % "1.4.6",
+      "ch.qos.logback" % "logback-classic" % "1.5.32",
       jacksonCore,
       jacksonDatabind
     )
@@ -53,7 +53,7 @@ lazy val api = project
     libraryDependencies ++= Seq(
       "com.amazonaws" % "aws-lambda-java-core" % "1.4.0",
       "software.amazon.awssdk" % "s3" % awsSdk2Version,
-      "com.typesafe" % "config" % "1.4.3",
+      "com.typesafe" % "config" % "1.4.6",
       jacksonCore,
       jacksonDatabind
     )
